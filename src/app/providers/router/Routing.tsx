@@ -31,6 +31,8 @@ export const Routing = () => {
                 </>
             )
         }
+
+        return element
     }
 
     return (
