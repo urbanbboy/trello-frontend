@@ -1,5 +1,7 @@
+import { Board } from "@/pages/Board";
 import { Boards } from "@/pages/Boards";
 import { Login } from "@/pages/Login";
+import { NotFound } from "@/pages/NotFound";
 import { Register } from "@/pages/Register";
 import { ReactNode } from "react";
 
@@ -10,12 +12,14 @@ export enum RouteNames {
     BOARD_PAGE = '/boards/:id',
     SETTINGS_PAGE = '/settings',
     PROFILE_PAGE = '/profile',
+    NOT_FOUND_PAGE = '*',
 }
 
 export interface Route {
     path: string;
     element: ReactNode;
     layout: boolean | "sidebar" | "header";
+    children?: Route[]
 }
 
 export const routeConfig: Route[] = [
@@ -32,6 +36,16 @@ export const routeConfig: Route[] = [
     {
         path: RouteNames.BOARDS_PAGE,
         element: <Boards />,
-        layout: true
+        layout: true,
+    },
+    {
+        path: RouteNames.BOARD_PAGE,
+        element: <Board />,
+        layout: false
+    },
+    {
+        path: RouteNames.NOT_FOUND_PAGE,
+        element: <NotFound />,
+        layout: false
     },
 ]

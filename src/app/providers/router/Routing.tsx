@@ -4,6 +4,7 @@ import { ReactNode, Suspense } from 'react'
 import { Loader } from '@/shared/ui/Loader'
 import { Sidebar } from '@/widgets/Sidebar';
 import { Header } from '@/widgets/Header';
+import { Outlet } from 'react-router-dom';
 
 export const Routing = () => {
 
@@ -15,8 +16,9 @@ export const Routing = () => {
                     <Header />
                     <div className="flex m-4 gap-4">
                         <Sidebar />
-                        <main className="flex-grow p-3 border rounded-lg">
+                        <main className="flex-grow p-3 border rounded-lg dark:bg-slate-800">
                             {element}
+                            <Outlet />
                         </main>
                     </div>
                 </>
