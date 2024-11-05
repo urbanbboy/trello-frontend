@@ -9,5 +9,8 @@ export default defineConfig({
         alias: {
             "@": path.resolve(__dirname, './src')
         }
+    },
+    define: {
+        __BASE_URL__: JSON.stringify("http://localhost:8080/api")
     }
 })

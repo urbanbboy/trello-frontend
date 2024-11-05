@@ -1,24 +1,37 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
 import { RouteNames } from "@/app/providers/router/routeConfig"
-import { LoginSchema } from "@/entities/User"
+import { LoginSchema, useAuth } from "@/entities/User"
+import { useLoginMutation } from "@/entities/User/model/api"
 import { Button } from "@/shared/ui/Button"
 import { Input } from "@/shared/ui/Input"
 import { PasswordInput } from "@/shared/ui/PasswordInput"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import * as Yup from 'yup'
+import { LoginResponseError } from "@/entities/User/model/types"
+import { ButtonLoader } from "@/shared/ui/ButtonLoader"
 
 const LoginForm = () => {
+    const [login, { isLoading }] = useLoginMutation();
+    const navigate = useNavigate();
+    const userAuth = useAuth()
     const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof LoginSchema>>({
         resolver: yupResolver(LoginSchema)
     })
 
     const onSubmit = async (data: Yup.InferType<typeof LoginSchema>) => {
-        try {
-            console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
+        await login(data)
+            .unwrap()
+            .then((data) => {
+                userAuth.login(data)
+                navigate(RouteNames.BOARDS_PAGE)
+            })
+            .catch((error: FetchBaseQueryError) => {
+                const data = error.data as LoginResponseError;
+                toast.error(data.message)
+            })
     }
 
     return (
@@ -26,11 +39,11 @@ const LoginForm = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-2xl text-center mb-4 text-gray-800">Авторизация</h2>
                 <div>
-                    <div className="font-medium pb-1">Имя пользователя</div>
+                    <div className="font-medium pb-1">Почта</div>
                     <Input
                         {...register('email')}
                         type="text"
-                        placeholder="Введите ваше имя"
+                        placeholder="Введите почту"
                     />
                     <div className="text-red-600">{errors.email?.message}</div>
                 </div>
@@ -44,8 +57,12 @@ const LoginForm = () => {
                     <div className="text-red-600">{errors.password?.message}</div>
                 </div>
 
-                <Button type="submit" className="mt-4">
-                    Войти
+                <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="mt-4"
+                >
+                    {isLoading ? <ButtonLoader /> : <>Войти</>}
                 </Button>
             </form>
             <div className="flex items-center justify-evenly w-full mt-4">

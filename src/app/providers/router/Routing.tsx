@@ -5,6 +5,7 @@ import { Loader } from '@/shared/ui/Loader'
 import { Sidebar } from '@/widgets/Sidebar';
 import { Header } from '@/widgets/Header';
 import { Outlet } from 'react-router-dom';
+import { PrivateRoute } from './PrivateRoute';
 
 export const Routing = () => {
 
@@ -45,7 +46,11 @@ export const Routing = () => {
                         key={route.path}
                         path={route.path}
                         element={
-                            routeElement(route.element, route.layout)
+                            route.private
+                                ? <PrivateRoute>
+                                    {routeElement(route.element, route.layout)}
+                                </PrivateRoute>
+                                : routeElement(route.element, route.layout)
                         }
                     />
                 ))}

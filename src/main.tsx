@@ -4,12 +4,18 @@ import './index.css'
 import App from './app/App.tsx'
 import { RouterProvider } from './app/providers/router'
 import { ThemeProvider } from './app/providers/theme'
+import { StoreProvider } from './app/providers/store'
+import { ToasterProvider } from './app/providers/toast/Toaster'
+
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
+        <ToasterProvider/>
         <ThemeProvider>
             <RouterProvider>
-                <App />
+                <StoreProvider>
+                    <App />
+                </StoreProvider>
             </RouterProvider>
         </ThemeProvider>
     </StrictMode>,

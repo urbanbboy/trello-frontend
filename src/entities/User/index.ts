@@ -1,2 +1,3 @@
-export { LoginSchema } from "./model/schemas/LoginSchema";
-export { RegisterSchema } from "./model/schemas/RegisterSchema";
+export { useAuth } from "./model/useAuth";
+export { userReducer, userActions } from "./model/slice";
+export { LoginSchema, RegisterSchema } from "./model/schema";

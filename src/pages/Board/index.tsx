@@ -5,8 +5,9 @@ export const Board = () => {
     // const { id } = useParams<{id: string}>()
 
     return (
-        <div>
+        <>
             <BoardHeader />
-        </div>
+            
+        </>
     )
 }
