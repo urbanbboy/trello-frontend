@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserState } from "./types";
+import { USER } from "@/shared/constants/User";
 
 const initialState: UserState = {
     user: undefined,
@@ -20,6 +21,7 @@ export const userSlice = createSlice({
         userLogout: (state) => {
             state.user = undefined
             state.token = undefined
+            localStorage.removeItem(USER.ACCESS_TOKEN)
         }
     }
 })

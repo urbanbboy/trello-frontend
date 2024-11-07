@@ -1,4 +1,5 @@
-export { BoardItem } from "./ui/BoardItem";
+export { getCurrentUserId } from "../User/model/selectors";
+export { BoardList } from "./ui/BoardList";
 
 export type {
     Board

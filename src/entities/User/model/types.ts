@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface UserState {
-    user: User | undefined;
+    user: User;
     token?: string | undefined;
     isLoaded: boolean;
 }

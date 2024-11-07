@@ -1,58 +1,88 @@
-import { BoardItem } from "@/entities/Board"
-import { CreateBoardForm } from "@/features/createBoard"
+import { useTheme } from "@/app/providers/theme"
+import { BoardList, getCurrentUserId } from "@/entities/Board"
+import { useCreateBoardMutation, useGetBoardsQuery } from "@/entities/Board/model/api"
+import { BoardCreateError } from "@/entities/Board/model/types"
+import { CreateBoardSchema } from "@/features/createBoard/model/schema/Schema"
+// import { CreateBoardForm } from "@/features/createBoard"
 import { Button } from "@/shared/ui/Button"
-import { Dialog, DialogPortal, DialogTrigger } from "@/shared/ui/Dialog"
+import { ButtonLoader } from "@/shared/ui/ButtonLoader"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/Dialog"
+import { Input } from "@/shared/ui/Input"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
 import { Plus } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { useSelector } from "react-redux"
+import { toast } from "sonner"
+import * as Yup from 'yup'
 
 export const Boards = () => {
+    const [open, setOpen] = useState(false)
+    const { theme } = useTheme()
+    const userId = useSelector(getCurrentUserId)
+
+    const [create, { isLoading }] = useCreateBoardMutation()
+    const { data: boards, isLoading: isBoardsLoading } = useGetBoardsQuery({ userId })
+
+    const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof CreateBoardSchema>>({
+        resolver: yupResolver(CreateBoardSchema)
+    })
+
+    const createBoard = async (data: Yup.InferType<typeof CreateBoardSchema>) => {
+        console.log(data)
+        await create({
+            ...data,
+            owner: userId
+        }).unwrap()
+            .then(() => {
+                setOpen(false)
+                toast.success("Новая доска создана")
+            })
+            .catch((error: FetchBaseQueryError) => {
+                const data = error.data as BoardCreateError
+                toast.error(data.message)
+            })
+    }
 
     return (
         <div className="text-black dark:text-white">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger>
                     <Button
                         className="flex items-center w-50"
                     >
                         <Plus />
-                        Create board
+                        Создать
                     </Button>
                 </DialogTrigger>
-                <DialogPortal>
-                    <CreateBoardForm />
-                </DialogPortal>
+                <DialogContent theme={theme} className="bg-white dark:bg-slate-700">
+                    <DialogHeader>
+                        <DialogTitle className="text-black dark:text-white">
+                            Создать доску
+                        </DialogTitle>
+                    </DialogHeader>
+
+                    <form onSubmit={handleSubmit(createBoard)}>
+                        <Input
+                            {...register("name")}
+                            type="text"
+                            placeholder="Название доски"
+                        />
+                        <div className="text-red-600">{errors.name?.message}</div>
+                        <DialogFooter>
+                            <Button
+                                disabled={isLoading}
+                                type="submit"
+                                className="w-50"
+                            >
+                                {isLoading ? <ButtonLoader /> : <>Создать</>}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
             </Dialog>
-            <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:justify-center max-w-screen-lg">
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-                <div className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem />
-                </div>
-            </div>
+            {boards && <BoardList isLoading={isBoardsLoading} boards={boards} />}
         </div>
     )
 }

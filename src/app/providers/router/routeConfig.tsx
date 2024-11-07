@@ -43,7 +43,7 @@ export const routeConfig: Route[] = [
     {
         path: RouteNames.BOARD_PAGE,
         element: <Board />,
-        layout: false,
+        layout: 'header',
         private: true
     },
     {
