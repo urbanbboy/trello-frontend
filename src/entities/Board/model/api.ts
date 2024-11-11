@@ -4,7 +4,7 @@ import { Board } from "./types";
 
 export const boardApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getBoards: builder.query<Board[], { userId: string }>({
+        getBoards: builder.query<Board[], { userId: string | undefined }>({
             query: ({ userId }) => ({
                 method: "GET",
                 url: '/boards',
@@ -26,11 +26,20 @@ export const boardApi = baseApi.injectEndpoints({
                 url: `/boards/${boardId}`
             }),
             invalidatesTags: ["boards"]
-        })
+        }),
+        getBoardById: builder.query<Board, { boardId: string | undefined }>({
+            query: ({ boardId }) => ({
+                method: "GET",
+                url: '/board',
+                params: { boardId }
+            }),
+            providesTags: ["board"]
+        }),
     })
 })
 
 export const {
     useCreateBoardMutation,
+    useGetBoardByIdQuery,
     useGetBoardsQuery,
 } = boardApi

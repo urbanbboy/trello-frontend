@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface UserState {
-    user: User;
+    user: User | undefined;
     token?: string | undefined;
     isLoaded: boolean;
 }
@@ -25,6 +25,11 @@ export interface LoginResponseSuccess {
 }
 
 export interface LoginResponseError {
+    message: string;
+    errors?: Error[]
+}
+
+export interface RegisterResponseError {
     message: string;
     errors?: Error[]
 }

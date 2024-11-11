@@ -35,6 +35,7 @@ export const BoardList: FC<Props> = ({ boards, isLoading }) => {
                     />
                 </div>
             )}
+            {/* Создать */}
             {isLoading && getSkeletons()}
             {/* {isLoading && <Loader />} */}
         </div>

@@ -1,12 +1,18 @@
 import { RouteNames } from "@/app/providers/router/routeConfig"
 import { Button } from "@/shared/ui/Button"
 import { Input } from "@/shared/ui/Input"
-import { Logo } from "@/shared/ui/Logo"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
+import { Skeleton } from "@/shared/ui/Skeleton"
 import { ArrowLeft, Images, Settings } from "lucide-react"
+import { FC } from "react"
 import { Link } from "react-router-dom"
 
-export const BoardHeader = () => {
+interface Props {
+    boardName?: string | undefined;
+    isLoading: boolean;
+}
+
+export const BoardHeader: FC<Props> = ({ boardName, isLoading }) => {
 
     return (
         <div className="py-2 px-4 bg-neutral-100 dark:bg-slate-900">
@@ -16,8 +22,8 @@ export const BoardHeader = () => {
                         <ArrowLeft className="text-slate-700 dark:text-neutral-100" />
                     </Link>
                 </div>
-                <div className="ml-20">
-                    <Logo />
+                <div className="ml-20 dark:text-white">
+                    {isLoading ? <Skeleton className="w-10 h-3" /> : <>{boardName}</>}
                 </div>
                 <div className="flex gap-3">
                     <Button className="w-22">
@@ -34,9 +40,9 @@ export const BoardHeader = () => {
                                 className="flex flex-col gap-2"
                             >
                                 <Input
-                                    
+
                                     placeholder="Название доски"
-        
+
                                 />
                                 <Button>Изменить</Button>
                                 <Button className="bg-red-600">Удалить</Button>

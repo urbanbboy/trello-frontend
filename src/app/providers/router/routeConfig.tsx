@@ -27,12 +27,12 @@ export const routeConfig: Route[] = [
     {
         path: RouteNames.LOGIN_PAGE,
         element: <Login />,
-        layout: false
+        layout: "header"
     },
     {
         path: RouteNames.REGISTER_PAGE,
         element: <Register />,
-        layout: false
+        layout: "header"
     },
     {
         path: RouteNames.BOARDS_PAGE,

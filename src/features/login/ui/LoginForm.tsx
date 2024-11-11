@@ -35,7 +35,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="bg-white p-6 rounded-sm shadow-lg w-full max-w-sm">
+        <div className="bg-white dark:bg-slate-2N00 p-6 rounded-sm shadow-lg w-full max-w-sm">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-2xl text-center mb-4 text-gray-800">Авторизация</h2>
                 <div>
@@ -45,7 +45,7 @@ const LoginForm = () => {
                         type="text"
                         placeholder="Введите почту"
                     />
-                    <div className="text-red-600">{errors.email?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.email?.message}</div>
                 </div>
                 <div>
                     <div className="font-medium pb-1 mt-4">Пароль</div>
@@ -54,7 +54,7 @@ const LoginForm = () => {
                         type="password"
                         placeholder="Введите ваш пароль"
                     />
-                    <div className="text-red-600">{errors.password?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.password?.message}</div>
                 </div>
 
                 <Button

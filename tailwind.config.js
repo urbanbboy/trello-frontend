@@ -11,7 +11,9 @@ export default {
         'bottom': '0 4px 10px rgba(0, 0, 0, 0.2)',
       },
       height: {
+        'screen-minus-48': 'calc(100dvh - 48px)',
         'screen-minus-90': 'calc(100dvh - 93px)',
+        'screen-minus-117': 'calc(100dvh-117px)'
       },
     },
   },

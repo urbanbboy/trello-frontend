@@ -14,7 +14,7 @@ const Input = memo(
                     type={type}
                     autoFocus={false}
                     className={cn(
-                        "w-full p-2 mb-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition delay-100",
+                        "w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition delay-100",
                         className
                     )}
                     ref={ref}

@@ -2,6 +2,12 @@
 import { Navigate, useLocation } from "react-router-dom"
 import { RouteNames } from "./routeConfig"
 import { FC, PropsWithChildren } from "react"
+import { useRefreshMutation } from "@/entities/User/model/api"
+import { useEffect } from "react"
+import { useAppDispatch } from "@/shared/hooks/useAppDispatch"
+import { userActions } from "@/entities/User"
+import { USER } from "@/shared/constants/User"
+import { Loader } from "@/shared/ui/Loader"
 
 export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
     const [getUser, { isLoading, isSuccess, isError }] = useRefreshMutation()
@@ -36,10 +42,3 @@ export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
     }
 }
 
-
-import { useRefreshMutation } from "@/entities/User/model/api"
-import { useEffect } from "react"
-import { useAppDispatch } from "@/shared/hooks/useAppDispatch"
-import { userActions } from "@/entities/User"
-import { USER } from "@/shared/constants/User"
-import { Loader } from "@/shared/ui/Loader"

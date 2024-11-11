@@ -1,28 +1,41 @@
 import { RouteNames } from "@/app/providers/router/routeConfig"
 import { RegisterSchema } from "@/entities/User"
+import { useRegisterMutation } from "@/entities/User/model/api"
+import { RegisterResponseError } from "@/entities/User/model/types"
 import { Button } from "@/shared/ui/Button"
+import { ButtonLoader } from "@/shared/ui/ButtonLoader"
 import { Input } from "@/shared/ui/Input"
 import { PasswordInput } from "@/shared/ui/PasswordInput"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import * as Yup from 'yup'
 
 const RegisterForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof RegisterSchema>>({
         resolver: yupResolver(RegisterSchema)
     })
+    const navigate = useNavigate()
+    const [registerUser, { isLoading }] = useRegisterMutation()
 
     const onSubmit = async (data: Yup.InferType<typeof RegisterSchema>) => {
-        try {
-            console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { confirmPassword, ...userData } = data
+        await registerUser(userData)
+            .unwrap()
+            .then(() => {
+                navigate(RouteNames.BOARDS_PAGE)
+            })
+            .catch((error: FetchBaseQueryError) => {
+                const data = error.data as RegisterResponseError;
+                toast.error(data.message)
+            })
     }
 
     return (
-        <div className="bg-white p-6 rounded-sm shadow-lg w-full max-w-sm">
+        <div className="bg-white dark:bg-slate-200 p-6 rounded-sm shadow-lg w-full max-w-sm">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-2xl text-center mb-4 text-gray-800">Регистрация</h2>
                 <div>
@@ -32,7 +45,7 @@ const RegisterForm = () => {
                         type="email"
                         placeholder="Введите почту"
                     />
-                    <div className="text-red-600">{errors.email?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.email?.message}</div>
                 </div>
                 <div>
                     <div className="font-medium pb-1">Имя пользователя</div>
@@ -41,7 +54,7 @@ const RegisterForm = () => {
                         type="text"
                         placeholder="Введите ваше имя"
                     />
-                    <div className="text-red-600">{errors.username?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.username?.message}</div>
                 </div>
                 <div className="pb-2">
                     <div className="font-medium pb-1 mt-1">Пароль</div>
@@ -50,7 +63,7 @@ const RegisterForm = () => {
                         type="password"
                         placeholder="Создайте пароль"
                     />
-                    <div className="text-red-600">{errors.password?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.password?.message}</div>
                 </div>
                 <div>
                     <PasswordInput
@@ -58,11 +71,11 @@ const RegisterForm = () => {
                         type="password"
                         placeholder="Подтвердите пароль"
                     />
-                    <div className="text-red-600">{errors.confirmPassword?.message}</div>
+                    <div className="text-red-600 text-xs">{errors.confirmPassword?.message}</div>
                 </div>
 
                 <Button type="submit" className="mt-4">
-                    Войти
+                    {isLoading ? <ButtonLoader /> : <>Зарегистрироваться</>}
                 </Button>
             </form>
             <div className="flex items-center justify-center w-full mt-4">

@@ -10,5 +10,5 @@ export const RegisterSchema = object({
     email: string().email().required("Заполните поле").matches(emailRegExp, "Неверный адрес электронной почты"),
     username: string().required("Заполните поле"),
     password: string().min(4, "Пароль должен быть не меньше 4 символов").required("Заполните поле"),
-    confirmPassword: string().min(4, "Пароль должен быть не меньше 4 символов").required("Заполните поле").oneOf([ref("password")], "Пароли не соответствуют")
+    confirmPassword: string().min(4, "Пароль должен быть не меньше 4 символов").oneOf([ref("password")], "Пароли не соответствуют").transform(value => (value === "" ? undefined : value)).optional(),
 })
