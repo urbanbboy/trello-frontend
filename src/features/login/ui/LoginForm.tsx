@@ -35,7 +35,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-slate-2N00 p-6 rounded-sm shadow-lg w-full max-w-sm">
+        <div className="bg-white dark:bg-slate-200 p-6 rounded-sm shadow-lg w-full max-w-sm">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-2xl text-center mb-4 text-gray-800">Авторизация</h2>
                 <div>

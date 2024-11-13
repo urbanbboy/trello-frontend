@@ -11,9 +11,15 @@ export const taskApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["task", "board"]
         }),
+        getColumnTasks: builder.query({
+            query: (columnId) => ({
+                url: `/tasks?columnId=${columnId}`
+            })
+        })
     })
 })
 
 export const {
-    useCreateTaskMutation
+    useCreateTaskMutation,
+    useGetColumnTasksQuery,
 } = taskApi

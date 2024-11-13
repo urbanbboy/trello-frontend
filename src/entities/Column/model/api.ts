@@ -20,10 +20,32 @@ export const boardApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["board"]
         }),
+        deleteColumn: builder.mutation({
+            query: (columnId) => ({
+                method: "DELETE",
+                url: `/columns/${columnId}`,
+            }),
+            invalidatesTags: ["board"]
+        }),
+        updateColumn: builder.mutation({
+            query: ({ data, columnId }) => ({
+                method: "PUT",
+                url: `/columns/${columnId}`,
+                body: data
+            })
+        }),
+        updateColumnPosition: builder.mutation({
+            query: (columnId) => ({
+                method: "PUT",
+                url: `/columns/${columnId}/position`
+            })
+        })
     })
 })
 
 export const {
     useGetBoardColumnsByIdQuery,
     useCreateColumnMutation,
+    useDeleteColumnMutation,
+    useUpdateColumnMutation,
 } = boardApi

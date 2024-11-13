@@ -2,7 +2,7 @@ import { Button } from "@/shared/ui/Button"
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
 import { Input } from "@/shared/ui/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { X } from "lucide-react"
+import { Plus, X } from "lucide-react"
 import { FC } from "react"
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from 'yup'
@@ -16,10 +16,14 @@ interface Props {
 }
 
 export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, addColumn }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof CreateColumnSchema>>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<Yup.InferType<typeof CreateColumnSchema>>({
         resolver: yupResolver(CreateColumnSchema)
     })
 
+    const onCloseForm = () => {
+        reset()
+        setFormVisible(false)
+    }
 
     return (
         <>
@@ -35,14 +39,14 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
                         <Button type="submit">
                             {isLoading ? <ButtonLoader /> : <>Создать</>}
                         </Button>
-                        <Button type="button" className="border-slate-200 bg-transparent hover:bg-slate-300 flex-1">
+                        <Button onClick={onCloseForm} type="button" className="border-slate-200 bg-transparent hover:bg-slate-300 flex-1">
                             <X className="text-slate-600" />
                         </Button>
                     </div>
                 </form>
                 : <Button onClick={() => setFormVisible(true)} disabled={isLoading} className="w-72 h-12">
                     <div className="flex justify-center">
-                        Добавить
+                        <Plus /> Добавить
                     </div>
                 </Button>
             }

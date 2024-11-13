@@ -4,15 +4,22 @@ import { Input } from "@/shared/ui/Input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
 import { Skeleton } from "@/shared/ui/Skeleton"
 import { ArrowLeft, Images, Settings } from "lucide-react"
-import { FC } from "react"
+import { FC, useState } from "react"
 import { Link } from "react-router-dom"
 
 interface Props {
-    boardName?: string | undefined;
+    boardName?: string;
     isLoading: boolean;
 }
 
 export const BoardHeader: FC<Props> = ({ boardName, isLoading }) => {
+    const [isEditable, setIsEditable] = useState(false)
+    const [boardTitle, setBoardTitle] = useState(boardName || '')
+
+
+    const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setBoardTitle(e.target.value)
+    }
 
     return (
         <div className="py-2 px-4 bg-neutral-100 dark:bg-slate-900">
@@ -40,11 +47,12 @@ export const BoardHeader: FC<Props> = ({ boardName, isLoading }) => {
                                 className="flex flex-col gap-2"
                             >
                                 <Input
-
+                                    value={boardTitle}
+                                    onChange={handleChangeTitle}
                                     placeholder="Название доски"
-
+                                    readOnly={!isEditable}
                                 />
-                                <Button>Изменить</Button>
+                                <Button onClick={() => setIsEditable(!isEditable)}>Изменить</Button>
                                 <Button className="bg-red-600">Удалить</Button>
                             </PopoverContent>
                         </PopoverTrigger>

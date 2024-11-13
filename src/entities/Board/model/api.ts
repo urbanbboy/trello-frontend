@@ -39,6 +39,7 @@ export const boardApi = baseApi.injectEndpoints({
 })
 
 export const {
+    useDeleteBoardMutation,
     useCreateBoardMutation,
     useGetBoardByIdQuery,
     useGetBoardsQuery,
