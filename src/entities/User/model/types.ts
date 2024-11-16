@@ -46,4 +46,8 @@ export interface UserRefreshResponse {
     // refreshToken: string;
 }
 
+export interface UserLogoutResponse {
+    message: string
+}
+
 export type LoginResponse = LoginResponseSuccess | LoginResponseError

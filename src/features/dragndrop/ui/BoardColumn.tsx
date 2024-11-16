@@ -23,6 +23,7 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
     const { data: tasks } = useGetColumnTasksQuery(column._id)
     const [updateColumn] = useUpdateColumnMutation()
     const [editColumn, setEditColumn] = useState(false)
+    const [addTask, setAddTask] = useState(false)
     const [columnName, setColumnName] = useState(column.title)
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -68,6 +69,10 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
             .catch(() => {
                 toast.error("Не удалось удалить")
             })
+    }
+
+    const onClickAddTask = () => {
+        setAddTask(!addTask)
     }
 
     const loadColumnTitle = (draggableProps: DraggableProvidedDragHandleProps | (JSX.IntrinsicAttributes & ClassAttributes<HTMLDivElement> & HTMLAttributes<HTMLDivElement>) | null) => {
@@ -135,7 +140,9 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
                                 tasks={tasks}
                             />}
                         </div>
+                        {/* {addTask && } */}
                         <button
+                            onClick={onClickAddTask}
                             className="flex w-full m-auto bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md"
                         >
                             <div className="m-auto">

@@ -11,7 +11,7 @@ export const Board = () => {
     return (
 
         <div>
-            <BoardHeader isLoading={isLoading} boardName={board?.name} />
+            {board && <BoardHeader isLoading={isLoading} board={board} />}
             {columns && board && <BoardColumns boardId={board?._id} columns={columns} />}
         </div>
     )

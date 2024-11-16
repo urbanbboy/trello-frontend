@@ -32,7 +32,8 @@ export const boardApi = baseApi.injectEndpoints({
                 method: "PUT",
                 url: `/columns/${columnId}`,
                 body: data
-            })
+            }),
+            invalidatesTags: ["board"]
         }),
         updateColumnPosition: builder.mutation({
             query: (columnId) => ({

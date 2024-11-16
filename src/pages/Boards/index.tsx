@@ -25,7 +25,7 @@ export const Boards = () => {
     const [create, { isLoading }] = useCreateBoardMutation()
     const { data: boards, isLoading: isBoardsLoading } = useGetBoardsQuery({ userId })
 
-    const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof CreateBoardSchema>>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<Yup.InferType<typeof CreateBoardSchema>>({
         resolver: yupResolver(CreateBoardSchema)
     })
 
@@ -38,6 +38,7 @@ export const Boards = () => {
             .then(() => {
                 setOpen(false)
                 toast.success("Новая доска создана")
+                reset()
             })
             .catch((error: FetchBaseQueryError) => {
                 const data = error.data as BoardCreateError
@@ -82,7 +83,7 @@ export const Boards = () => {
                     </form>
                 </DialogContent>
             </Dialog>
-            {boards && <BoardList isLoading={isBoardsLoading} boards={boards} />}
+            <BoardList isLoading={isBoardsLoading} boards={boards} />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { UserRefreshResponse } from '@/entities/User/model/types';
+import { UserLogoutResponse, UserRefreshResponse } from '@/entities/User/model/types';
 import { LoginSchema, RegisterSchema } from '@/entities/User';
 import { LoginResponseSuccess, RegisterResponse } from './types';
 import { baseApi } from "@/shared/api/baseApi";
@@ -21,12 +21,12 @@ export const userApi = baseApi.injectEndpoints({
                 body: data
             })
         }),
-        logout: builder.mutation<RegisterResponse, Yup.InferType<typeof RegisterSchema>>({
-            query: (data) => ({
-                url: '/register',
+        logout: builder.mutation<UserLogoutResponse, void>({
+            query: () => ({
+                url: '/logout',
                 method: "POST",
-                body: data
-            })
+            }),
+            invalidatesTags: ["user"]
         }),
         refresh: builder.mutation<UserRefreshResponse, void>({
             query: () => ({
@@ -40,5 +40,6 @@ export const userApi = baseApi.injectEndpoints({
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useRefreshMutation
+    useRefreshMutation,
+    useLogoutMutation
 } = userApi

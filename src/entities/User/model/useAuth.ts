@@ -13,10 +13,15 @@ export const useAuth = () => {
         localStorage.setItem(USER.ACCESS_TOKEN, data.accessToken)
     }
 
+    const logout = () => {
+        dispatch(userActions.logout())
+    }
+
     const currentUser = useSelector(getCurrentUser)
 
     return {
         login,
-        currentUser
+        currentUser,
+        logout
     }
 }

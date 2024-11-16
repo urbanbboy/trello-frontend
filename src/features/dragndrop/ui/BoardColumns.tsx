@@ -77,7 +77,6 @@ export const BoardColumns: FC<Props> = ({ columns, boardId }) => {
         <div
             className="block relative overflow-x-auto h-screen-minus-120 bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(/board_main_bg.jpg)` }}
-        // style={{backgroundImage: 'url(/board_main_bg.jpg)'}}
         >
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="all-columns" direction="horizontal" type="column" >

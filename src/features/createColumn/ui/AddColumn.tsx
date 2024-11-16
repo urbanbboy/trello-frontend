@@ -28,8 +28,9 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
     return (
         <>
             {formVisible
-                ? <form onSubmit={handleSubmit(addColumn)} className="border p-2">
+                ? <form onSubmit={handleSubmit(addColumn)} className="border rounded-md p-2 bg-white">
                     <Input
+                        autoFocus
                         placeholder="Название колонки"
                         {...register("title")}
                         className="h-8"
