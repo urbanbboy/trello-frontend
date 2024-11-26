@@ -49,7 +49,7 @@ export const Boards = () => {
     return (
         <div className="text-black dark:text-white">
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                     <Button
                         className="flex items-center w-50"
                     >
@@ -77,7 +77,7 @@ export const Boards = () => {
                                 type="submit"
                                 className="w-50"
                             >
-                                {isLoading ? <ButtonLoader /> : <>Создать</>}
+                                {isLoading ? <ButtonLoader text={'Создание'} /> : <>Создать</>}
                             </Button>
                         </DialogFooter>
                     </form>

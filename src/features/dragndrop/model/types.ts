@@ -1,3 +1,5 @@
+import { Column } from "@/entities/Column/model/types";
+
 interface Error {
     message: string;
 }
@@ -5,4 +7,8 @@ interface Error {
 export interface CreateTaskError {
     message: string;
     errors: Error[];
+}
+
+export interface InitialState {
+    columns?: Column[];
 }

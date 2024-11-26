@@ -25,18 +25,22 @@ export const BoardList: FC<Props> = ({ boards, isLoading }) => {
     }
 
     return (
-        <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:justify-center max-w-screen-lg">
-            {boards?.map(board => (
-                <div
-                    key={board._id}
-                    className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
-                    <BoardItem
-                        name={board.name}
-                        boardId={board._id}
-                    />
-                </div>
-            ))}
-            {isLoading && getSkeletons()}
-        </div>
+        <>
+            <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:justify-center max-w-screen-lg">
+                {boards?.map(board => (
+                    <div
+                        key={board._id}
+                        className="w-full aspect-square flex items-center justify-center bg-cover bg-center rounded-lg">
+                        <BoardItem
+                            name={board.name}
+                            boardId={board._id}
+                        />
+                    </div>
+                ))}
+                {isLoading && getSkeletons()}
+            </div>
+        </>
+
+
     )
 }

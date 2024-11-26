@@ -65,7 +65,7 @@ export const CreateBoardForm = () => {
                         type="submit"
                         className="w-50"
                     >
-                        {isLoading ? <ButtonLoader/> : <>Создать</>}
+                        {isLoading ? <ButtonLoader text="Создание" /> : <>Создать</>}
                     </Button>
                 </DialogFooter>
             </form>

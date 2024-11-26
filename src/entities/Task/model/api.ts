@@ -6,15 +6,16 @@ export const taskApi = baseApi.injectEndpoints({
         createTask: builder.mutation({
             query: (data) => ({
                 method: "POST",
-                url: '/columns',
+                url: '/tasks',
                 body: data
             }),
-            invalidatesTags: ["task", "board"]
+            invalidatesTags: ["board"]
         }),
         getColumnTasks: builder.query({
             query: (columnId) => ({
                 url: `/tasks?columnId=${columnId}`
-            })
+            }),
+            providesTags: ["board", "task"]
         })
     })
 })

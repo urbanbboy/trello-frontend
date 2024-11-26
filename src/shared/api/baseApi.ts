@@ -6,5 +6,5 @@ export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: rtkBaseQuery,
     endpoints: () => ({}),
-    tagTypes: ["user", "boards", "board", "task"]
+    tagTypes: ["user", "boards", "board", "task", "column"]
 })

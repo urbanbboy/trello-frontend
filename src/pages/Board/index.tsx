@@ -6,10 +6,11 @@ import { BoardColumns } from "@/features/dragndrop"
 
 export const Board = () => {
     const { id: boardId } = useParams<{ id: string }>()
-    const { data: board } = useGetBoardByIdQuery({ boardId })
+    
     const { data: columns, isLoading } = useGetBoardColumnsByIdQuery({ boardId })
-    return (
+    const { data: board } = useGetBoardByIdQuery({ boardId })
 
+    return (
         <div>
             {board && <BoardHeader isLoading={isLoading} board={board} />}
             {columns && board && <BoardColumns boardId={board?._id} columns={columns} />}

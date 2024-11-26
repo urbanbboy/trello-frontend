@@ -75,7 +75,7 @@ const RegisterForm = () => {
                 </div>
 
                 <Button type="submit" className="mt-4">
-                    {isLoading ? <ButtonLoader /> : <>Зарегистрироваться</>}
+                    {isLoading ? <ButtonLoader text="Регистрация" /> : <>Зарегистрироваться</>}
                 </Button>
             </form>
             <div className="flex items-center justify-center w-full mt-4">

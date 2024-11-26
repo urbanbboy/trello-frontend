@@ -16,8 +16,8 @@ interface Props {
 }
 
 export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
-    const [ updateBoard ] = useUpdateBoardMutation()
-    const [ deleteBoard ] = useDeleteBoardMutation()
+    const [updateBoard] = useUpdateBoardMutation()
+    const [deleteBoard] = useDeleteBoardMutation()
     const navigate = useNavigate()
 
     const [boardTitle, setBoardTitle] = useState(board?.name)
@@ -53,7 +53,6 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
             .catch(() => {
                 toast.error("Не удалось удалить доску")
             })
-            
     }
 
     return (
@@ -72,25 +71,25 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                         Пригласить
                     </Button>
                     <Popover>
-                        <PopoverTrigger>
+                        <PopoverTrigger asChild>
                             <button>
                                 <Settings className="text-slate-700 dark:text-neutral-100" />
                             </button>
-                            <PopoverContent
-                                autoFocus={false}
-                                align="center"
-                                side="bottom"
-                                className="flex flex-col gap-2"
-                            >
-                                <Input
-                                    value={boardTitle}
-                                    onChange={handleChangeTitle}
-                                    placeholder="Название доски"
-                                />
-                                <Button onClick={handleUpdateBoard}>Изменить</Button>
-                                <Button onClick={handleDeleteBoard} className="bg-red-600">Удалить</Button>
-                            </PopoverContent>
                         </PopoverTrigger>
+                        <PopoverContent
+                            autoFocus={false}
+                            align="center"
+                            side="bottom"
+                            className="flex flex-col gap-2"
+                        >
+                            <Input
+                                value={boardTitle}
+                                onChange={handleChangeTitle}
+                                placeholder="Название доски"
+                            />
+                            <Button onClick={handleUpdateBoard}>Изменить</Button>
+                            <Button onClick={handleDeleteBoard} className="bg-red-600">Удалить</Button>
+                        </PopoverContent>
                     </Popover>
 
                     <button>

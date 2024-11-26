@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd"
 
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { BoardColumn } from "./BoardColumn";
 // import { useCreateTaskMutation } from "@/entities/Task/model/api";
 import { AddColumn } from "@/features/createColumn";
@@ -21,22 +21,29 @@ interface Props {
 export const BoardColumns: FC<Props> = ({ columns, boardId }) => {
     const [createColumn, { isLoading }] = useCreateColumnMutation()
     const [formVisible, setFormVisible] = useState(false)
-    const columnPosition = useGetSequence(columns)
+    const [boardColumns, setBoardColumns] = useState<Column[]>(columns)
+    const columnPosition = useGetSequence(boardColumns)
+
+    useEffect(() => {
+        setBoardColumns(columns)
+    }, [columns])
 
     const setCreateFormVisible = () => {
         setFormVisible(!formVisible)
     }
 
-    const saveColumnSequence = (destinationIndex: number, columnId: string) => {
-        const filteredColumns = columns.filter((column) => column._id !== columnId)
+    const saveTaskSequence = async () => {
+        //логика изменения порядка
+    }
+
+    const saveColumnSequence = async (destinationIndex: number, columnId: string) => {
+        const filteredColumns = boardColumns.filter((column) => column._id !== columnId)
+        console.log(filteredColumns)
         const sortedColumns = filteredColumns.sort((a, b) => a.position - b.position)
 
         const position = destinationIndex === 0 ? 1 : sortedColumns[destinationIndex - 1].position + 1;
-        console.log(position)
-        // const patchColumn = {
-        //     _id: columnId,
-        //     position
-        // };
+
+        // console.log(position)
     }
 
     const onDragEnd = async (result: DropResult) => {
@@ -53,6 +60,10 @@ export const BoardColumns: FC<Props> = ({ columns, boardId }) => {
 
         if (type === "column") {
             await saveColumnSequence(destination.index, draggableId)
+        }
+
+        if(type === "task") {
+            await saveTaskSequence(destination.index, destination.droppableId, draggableId)
         }
 
     }
@@ -86,7 +97,7 @@ export const BoardColumns: FC<Props> = ({ columns, boardId }) => {
                             {...provided.droppableProps}
                             className="flex absolute gap-2 m-3 overflow-y-auto"
                         >
-                            {columns.map((column, index) => (
+                            {boardColumns.map((column, index) => (
                                 <BoardColumn
                                     key={column._id}
                                     column={column}

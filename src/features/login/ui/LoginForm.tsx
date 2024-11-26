@@ -62,7 +62,7 @@ const LoginForm = () => {
                     type="submit"
                     className="mt-4"
                 >
-                    {isLoading ? <ButtonLoader /> : <>Войти</>}
+                    {isLoading ? <ButtonLoader text="Вход" /> : <>Войти</>}
                 </Button>
             </form>
             <div className="flex items-center justify-evenly w-full mt-4">

@@ -2,6 +2,7 @@ import { useDeleteColumnMutation, useUpdateColumnMutation } from "@/entities/Col
 import { Column } from "@/entities/Column/model/types";
 import { TaskList } from "@/entities/Task";
 import { useGetColumnTasksQuery } from "@/entities/Task/model/api";
+import { CreateTaskForm } from "@/features/createTask";
 import { Button } from "@/shared/ui/Button";
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
 import { Input } from "@/shared/ui/Input";
@@ -23,7 +24,7 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
     const { data: tasks } = useGetColumnTasksQuery(column._id)
     const [updateColumn] = useUpdateColumnMutation()
     const [editColumn, setEditColumn] = useState(false)
-    const [addTask, setAddTask] = useState(false)
+    const [visibleTaskForm, setVisibleTaskForm] = useState(false)
     const [columnName, setColumnName] = useState(column.title)
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -71,8 +72,12 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
             })
     }
 
-    const onClickAddTask = () => {
-        setAddTask(!addTask)
+    const onClickOpenTaskForm = () => {
+        setVisibleTaskForm(!visibleTaskForm)
+    }
+
+    const onCloseTaskForm = () => {
+        setVisibleTaskForm(false)
     }
 
     const loadColumnTitle = (draggableProps: DraggableProvidedDragHandleProps | (JSX.IntrinsicAttributes & ClassAttributes<HTMLDivElement> & HTMLAttributes<HTMLDivElement>) | null) => {
@@ -102,36 +107,37 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
                     key={index}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
-                    className="h-screen-minus-130 w-72"
+                    className="h-screen-minus-130 w-72 overflow-y-auto"
                 >
                     <div className="p-3 rounded-md bg-white dark:bg-slate-700">
                         <div className="flex justify-between">
                             {loadColumnTitle(provided.dragHandleProps)}
                             <div>
                                 <Popover>
-                                    <PopoverTrigger>
+                                    <PopoverTrigger asChild>
                                         <button>
                                             <Ellipsis className="text-slate-700 dark:text-slate-300" />
                                         </button>
-                                        <PopoverContent
-                                            align="start"
-                                            side="bottom"
-                                            className="flex flex-col gap-2"
-                                        >
-                                            <Button
-                                                onClick={onChangeEdit}
-                                                className="flex justify-center gap-1"
-                                            >
-                                                <Pencil /> Изменить
-                                            </Button>
-                                            <Button
-                                                onClick={handleColumnDelete}
-                                                className="flex justify-center gap-1 bg-red-600 hover:bg-red-800"
-                                            >
-                                                {isLoading ? <ButtonLoader /> : <><Trash2 /> Удалить</>}
-                                            </Button>
-                                        </PopoverContent>
                                     </PopoverTrigger>
+                                    <PopoverContent
+                                        align="start"
+                                        side="bottom"
+                                        className="flex flex-col gap-2"
+                                    >
+                                        <Button
+                                            onClick={onChangeEdit}
+                                            className="flex justify-center gap-1"
+                                        >
+                                            <Pencil /> Изменить
+                                        </Button>
+                                        <Button
+                                            onClick={handleColumnDelete}
+                                            className="flex justify-center gap-1 bg-red-600 hover:bg-red-800"
+                                        >
+                                            {isLoading ? <ButtonLoader text="Удаление" /> : <><Trash2 /> Удалить</>}
+                                        </Button>
+                                    </PopoverContent>
+
                                 </Popover>
                             </div>
                         </div>
@@ -140,15 +146,17 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
                                 tasks={tasks}
                             />}
                         </div>
-                        {/* {addTask && } */}
-                        <button
-                            onClick={onClickAddTask}
-                            className="flex w-full m-auto bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md"
-                        >
-                            <div className="m-auto">
-                                <Plus />
-                            </div>
-                        </button>
+                        {visibleTaskForm && <CreateTaskForm columnId={column._id} onCloseTaskForm={onCloseTaskForm} />}
+                        {!visibleTaskForm &&
+                            <button
+                                onClick={onClickOpenTaskForm}
+                                className="flex w-full m-auto bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md"
+                            >
+                                <div className="m-auto">
+                                    <Plus />
+                                </div>
+                            </button>
+                        }
                     </div>
                 </div>
             )}

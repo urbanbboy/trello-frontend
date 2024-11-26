@@ -38,7 +38,7 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
                     <div className="text-red-600 text-xs mb-2">{errors.title?.message}</div>
                     <div className="flex gap-1">
                         <Button type="submit">
-                            {isLoading ? <ButtonLoader /> : <>Создать</>}
+                            {isLoading ? <ButtonLoader text="Создание" /> : <>Создать</>}
                         </Button>
                         <Button onClick={onCloseForm} type="button" className="border-slate-200 bg-transparent hover:bg-slate-300 flex-1">
                             <X className="text-slate-600" />
