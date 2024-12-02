@@ -1,4 +1,5 @@
 import { baseApi } from "@/shared/api/baseApi";
+import { Task } from "./types";
 
 
 export const taskApi = baseApi.injectEndpoints({
@@ -11,16 +12,26 @@ export const taskApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["board"]
         }),
-        getColumnTasks: builder.query({
-            query: (columnId) => ({
-                url: `/tasks?columnId=${columnId}`
+        getColumnTasks: builder.query<Task[], string>({
+            query: (boardId) => ({
+                method: "GET",
+                url: `/boards/${boardId}/tasks`
             }),
             providesTags: ["board", "task"]
-        })
+        }),
+        updateTaskOrder: builder.mutation({
+            query: (data) => ({
+                method: "PUT",
+                url: '/tasks/updateorder',
+                body: data
+            }),
+            invalidatesTags: ["column", "task"]
+        }),
     })
 })
 
 export const {
     useCreateTaskMutation,
     useGetColumnTasksQuery,
+    useUpdateTaskOrderMutation
 } = taskApi

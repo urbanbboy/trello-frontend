@@ -42,7 +42,7 @@ export const rtkBaseQuery: BaseQueryFn<
                     api.dispatch(userActions.setUser(user));
                     result = await baseQuery(args, api, extraOptions);
                 } else {
-                    api.dispatch(userActions.userLogout());
+                    api.dispatch(userActions.logout());
                 }
             } finally {
                 release();

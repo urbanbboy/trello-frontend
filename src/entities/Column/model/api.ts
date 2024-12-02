@@ -4,11 +4,10 @@ import { Column } from "./types";
 
 export const boardApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getBoardColumnsById: builder.query<Column[], { boardId: string | undefined }>({
-            query: ({ boardId }) => ({
+        getBoardColumnsById: builder.query<Column[], string>({
+            query: (boardId) => ({
                 method: "GET",
-                url: '/columns',
-                params: { boardId }
+                url: `/boards/${boardId}/columns`,
             }),
             providesTags: ["board"]
         }),
@@ -35,11 +34,13 @@ export const boardApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["board"]
         }),
-        updateColumnPosition: builder.mutation({
-            query: (columnId) => ({
+        updateColumnOrder: builder.mutation({
+            query: (data) => ({
                 method: "PUT",
-                url: `/columns/${columnId}/position`
-            })
+                url: '/columns/updateorder',
+                body: data
+            }),
+            invalidatesTags: ["column"]
         })
     })
 })
@@ -49,4 +50,5 @@ export const {
     useCreateColumnMutation,
     useDeleteColumnMutation,
     useUpdateColumnMutation,
+    useUpdateColumnOrderMutation
 } = boardApi

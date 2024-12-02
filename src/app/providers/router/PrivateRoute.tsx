@@ -34,6 +34,7 @@ export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
 
 
     if (isError) {
+        dispatch(userActions.logout())
         return <Navigate to={RouteNames.LOGIN_PAGE} state={{ from: pathname }} />
     }
 

@@ -1,1 +1,1 @@
-export { TaskList } from "./ui/TaskList";
+export { TaskItem } from "./ui/TaskItem";

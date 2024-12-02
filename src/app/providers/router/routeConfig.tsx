@@ -4,8 +4,10 @@ import { Login } from "@/pages/Login";
 import { NotFound } from "@/pages/NotFound";
 import { Register } from "@/pages/Register";
 import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
 export enum RouteNames {
+    MAIN_PAGE = '/',
     LOGIN_PAGE = '/login',
     REGISTER_PAGE = '/register',
     BOARDS_PAGE = '/boards',
@@ -24,6 +26,11 @@ export interface Route {
 }
 
 export const routeConfig: Route[] = [
+    {
+        path: RouteNames.MAIN_PAGE,
+        element: <Navigate to={"/boards"} />,
+        layout: false,
+    },
     {
         path: RouteNames.LOGIN_PAGE,
         element: <Login />,

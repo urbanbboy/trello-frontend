@@ -1,15 +1,27 @@
 import { FC } from "react"
+import { Task } from "../model/types";
+import { Draggable } from "@hello-pangea/dnd";
 
 interface Props {
-    title: string;
-    createdAt: string;
+    index: number;
+    task: Task;
 }
 
-export const TaskItem: FC<Props> = ({ title, createdAt }) => {
+export const TaskItem: FC<Props> = ({ task, index }) => {
     return (
-        <div className="bg-slate-100 p-2 rounded-md">
-            {title}
-            {createdAt}
-        </div>
+        <Draggable draggableId={task._id} index={index}>
+            {(provided) => (
+                <li
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    role="button"
+                    className="bg-slate-100 p-2 rounded-md truncate border-2 border-transparent hover:border-black"
+                >
+                    {task.title}
+                </li>
+            )}
+        </Draggable>
+
     )
 }

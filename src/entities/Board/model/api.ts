@@ -33,7 +33,7 @@ export const boardApi = baseApi.injectEndpoints({
                 url: `/boards/${boardId}`,
                 body: data
             }),
-            invalidatesTags: ["board"]
+            invalidatesTags: ["board", "boards"]
         }),
         getBoardById: builder.query<Board, { boardId: string | undefined }>({
             query: ({ boardId }) => ({

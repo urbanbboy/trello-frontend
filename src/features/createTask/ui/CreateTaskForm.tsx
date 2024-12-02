@@ -12,14 +12,19 @@ import { toast } from "sonner"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
 import { CreateTaskError } from "../model/types"
 import { ButtonLoader } from "@/shared/ui/ButtonLoader"
+import { useGetSequence } from "@/shared/hooks/useGeSequence"
+import { Task } from "@/entities/Task/model/types"
 
 interface Props {
     columnId: string;
     onCloseTaskForm: () => void
+    tasks: Task[];
+    boardId: string;
 }
 
-export const CreateTaskForm: FC<Props> = ({ onCloseTaskForm, columnId }) => {
+export const CreateTaskForm: FC<Props> = ({ onCloseTaskForm, columnId, tasks, boardId }) => {
     const [createTask, { isLoading }] = useCreateTaskMutation()
+    const taskOrder = useGetSequence(tasks)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Yup.InferType<typeof CreateTaskSchema>>({
         resolver: yupResolver(CreateTaskSchema)
@@ -27,11 +32,11 @@ export const CreateTaskForm: FC<Props> = ({ onCloseTaskForm, columnId }) => {
 
 
     const onSubmit = async (data: Yup.InferType<typeof CreateTaskSchema>) => {
-        console.log({...data, column: columnId, position: 1})
         await createTask({
             ...data,
-            column: columnId,
-            position: 1
+            columnId: columnId,
+            order: taskOrder,
+            boardId
         })
             .unwrap()
             .then(() => {

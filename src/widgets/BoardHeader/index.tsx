@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 interface Props {
-    board?: Board;
+    board: Board;
     isLoading: boolean;
 }
 
@@ -29,7 +29,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
 
     const handleUpdateBoard = async () => {
         await updateBoard({
-            boardId: board?._id,
+            boardId: board._id,
             data: {
                 name: boardTitle
             }

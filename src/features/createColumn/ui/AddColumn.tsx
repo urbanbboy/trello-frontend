@@ -13,6 +13,7 @@ interface Props {
     isLoading?: boolean;
     formVisible: boolean;
     setFormVisible: (visible: boolean) => void;
+    isSuccess: boolean;
 }
 
 export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, addColumn }) => {
@@ -25,10 +26,16 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
         setFormVisible(false)
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+        if (e.key === "Escape") {
+            onCloseForm()
+        }
+    }
+
     return (
         <>
             {formVisible
-                ? <form onSubmit={handleSubmit(addColumn)} className="border rounded-md p-2 bg-white">
+                ? <form onKeyDown={handleKeyDown} onSubmit={handleSubmit(addColumn)} className="border rounded-md p-2 bg-white dark:bg-slate-500 dark:border-none ">
                     <Input
                         autoFocus
                         placeholder="Название колонки"
@@ -40,7 +47,7 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
                         <Button type="submit">
                             {isLoading ? <ButtonLoader text="Создание" /> : <>Создать</>}
                         </Button>
-                        <Button onClick={onCloseForm} type="button" className="border-slate-200 bg-transparent hover:bg-slate-300 flex-1">
+                        <Button onClick={onCloseForm} type="button" className="border-slate-400 bg-transparent hover:bg-slate-300 flex-1">
                             <X className="text-slate-600" />
                         </Button>
                     </div>

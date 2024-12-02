@@ -1,7 +1,7 @@
 export interface Column {
     _id: string;
     title: string;
-    board: string;
+    boardId: string;
     tasks: string[];
-    position: number;
+    order: number;
 }

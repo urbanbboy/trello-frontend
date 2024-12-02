@@ -1,27 +1,29 @@
 import { useDeleteColumnMutation, useUpdateColumnMutation } from "@/entities/Column/model/api";
 import { Column } from "@/entities/Column/model/types";
-import { TaskList } from "@/entities/Task";
-import { useGetColumnTasksQuery } from "@/entities/Task/model/api";
+import { TaskItem } from "@/entities/Task";
+import { Task } from "@/entities/Task/model/types";
 import { CreateTaskForm } from "@/features/createTask";
 import { Button } from "@/shared/ui/Button";
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
 import { Input } from "@/shared/ui/Input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import { Draggable, DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import { Draggable, DraggableProvidedDragHandleProps, Droppable } from "@hello-pangea/dnd";
 import { Ellipsis, Grip, Pencil, Plus, Trash2, X } from "lucide-react";
 import { ChangeEvent, ClassAttributes, FC, HTMLAttributes, useRef, useState } from "react"
+import { useParams } from "react-router-dom";
 import { JSX } from "react/jsx-runtime";
 import { toast } from "sonner";
 
 
 interface Props {
     column: Column;
+    tasks: Task[];
     index: number;
 }
 
-export const BoardColumn: FC<Props> = ({ column, index }) => {
+export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
+    const { id: boardId } = useParams<{ id: string }>()
     const [deleteColumn, { isLoading }] = useDeleteColumnMutation()
-    const { data: tasks } = useGetColumnTasksQuery(column._id)
     const [updateColumn] = useUpdateColumnMutation()
     const [editColumn, setEditColumn] = useState(false)
     const [visibleTaskForm, setVisibleTaskForm] = useState(false)
@@ -37,7 +39,15 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
         // inputRef.current?.focus()
     }
 
+
+    const onCancelEdit = () => {
+        setEditColumn(false)
+        setColumnName(column.title)
+    }
+
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+
         if (e.key === "Enter") {
             await updateColumn({
                 columnId: column._id,
@@ -56,10 +66,6 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
         }
     }
 
-    const onCancelEdit = () => {
-        setEditColumn(false)
-        setColumnName(column.title)
-    }
 
     const handleColumnDelete = async () => {
         await deleteColumn(column._id)
@@ -103,7 +109,7 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
     return (
         <Draggable draggableId={column._id} index={index} key={column._id}>
             {(provided) => (
-                <div
+                <li
                     key={index}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
@@ -141,12 +147,32 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
                                 </Popover>
                             </div>
                         </div>
-                        <div>
-                            {tasks && <TaskList
-                                tasks={tasks}
-                            />}
-                        </div>
-                        {visibleTaskForm && <CreateTaskForm columnId={column._id} onCloseTaskForm={onCloseTaskForm} />}
+                        <Droppable droppableId={column._id} type="task">
+                            {(provided) => (
+                                <ol
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className="flex flex-col gap-2 my-2"
+                                >
+                                    {tasks.map((task, index) => (
+                                        <TaskItem
+                                            index={index}
+                                            task={task}
+                                            key={task._id}
+                                        />
+                                    ))}
+                                    {provided.placeholder}
+                                </ol>
+                            )}
+                        </Droppable>
+                        {visibleTaskForm &&
+                            <CreateTaskForm
+                                tasks={tasks || []}
+                                columnId={column._id}
+                                boardId={boardId || ''}
+                                onCloseTaskForm={onCloseTaskForm}
+                            />
+                        }
                         {!visibleTaskForm &&
                             <button
                                 onClick={onClickOpenTaskForm}
@@ -158,7 +184,7 @@ export const BoardColumn: FC<Props> = ({ column, index }) => {
                             </button>
                         }
                     </div>
-                </div>
+                </li>
             )}
         </Draggable>
     )

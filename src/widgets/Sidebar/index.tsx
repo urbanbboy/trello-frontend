@@ -24,7 +24,7 @@ export const Sidebar = () => {
     }
 
     return (
-        <aside className="flex-col items-center bg-white dark:bg-slate-800 border rounded-lg hidden lg:flex w-64 h-screen-minus-90">
+        <aside className="flex-col items-center bg-white dark:bg-slate-800 border rounded-lg dark:border-none hidden lg:flex w-64 h-screen-minus-90">
             <div className="h-full px-3 py-4 overflow-y-auto w-full">
                 <Nav
                     links={[

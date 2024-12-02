@@ -4,8 +4,9 @@ export interface Task {
     _id: string;
     title: string;
     desciption: string;
-    column: string;
-    position: number;
+    columnId: string;
+    boardId: string;
+    order: number;
     assignees: User[];
     createAt: string;
     updatedAt: string;
