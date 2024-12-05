@@ -1,7 +1,10 @@
+import { useEffect } from "react"
 import { Routing } from "./providers/router"
 
 function App() {
-    if(!window.navigator.onLine) alert("Отсутствует интернет соединение")
+    useEffect(() => {
+        if (!window.navigator.onLine) alert("Отсутствует интернет соединение")
+    }, [])
 
     return (
         <>

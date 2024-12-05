@@ -12,6 +12,21 @@ export const taskApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["board"]
         }),
+        updateTask: builder.mutation({
+            query: ({data, id}) => ({
+                method: "PUT",
+                url: `/tasks/${id}`,
+                body: data
+            }),
+            invalidatesTags: ["task", "column"]
+        }),
+        deleteTask: builder.mutation<Task, string | undefined>({
+            query: (taskId) => ({
+                url: `/tasks/${taskId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["task"]
+        }),
         getColumnTasks: builder.query<Task[], string>({
             query: (boardId) => ({
                 method: "GET",
@@ -33,5 +48,7 @@ export const taskApi = baseApi.injectEndpoints({
 export const {
     useCreateTaskMutation,
     useGetColumnTasksQuery,
-    useUpdateTaskOrderMutation
+    useUpdateTaskOrderMutation,
+    useUpdateTaskMutation,
+    useDeleteTaskMutation
 } = taskApi

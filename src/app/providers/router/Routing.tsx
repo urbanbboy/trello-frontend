@@ -13,9 +13,9 @@ export const Routing = () => {
 
         if (layout == true) {
             return (
-                <div className='bg-white dark:bg-slate-600 h-screen'>
+                <div className='bg-white dark:bg-slate-600 min-h-screen'>
                     <Header />
-                    <div className="flex m-4 gap-4">
+                    <div className="flex p-4 gap-4">
                         <Sidebar />
                         <main className="flex-grow p-3 border rounded-lg dark:bg-slate-800 dark:border-none">
                             {element}

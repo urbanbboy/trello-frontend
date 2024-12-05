@@ -77,7 +77,6 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                             </button>
                         </PopoverTrigger>
                         <PopoverContent
-                            autoFocus={false}
                             align="center"
                             side="bottom"
                             className="flex flex-col gap-2"

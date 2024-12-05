@@ -27,6 +27,7 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
     const [updateColumn] = useUpdateColumnMutation()
     const [editColumn, setEditColumn] = useState(false)
     const [visibleTaskForm, setVisibleTaskForm] = useState(false)
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [columnName, setColumnName] = useState(column.title)
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,6 +37,7 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
 
     const onChangeEdit = () => {
         setEditColumn(!editColumn)
+        setIsPopoverOpen(false)
         // inputRef.current?.focus()
     }
 
@@ -49,6 +51,7 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
 
 
         if (e.key === "Enter") {
+
             await updateColumn({
                 columnId: column._id,
                 data: { title: columnName }
@@ -119,7 +122,7 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
                         <div className="flex justify-between">
                             {loadColumnTitle(provided.dragHandleProps)}
                             <div>
-                                <Popover>
+                                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                                     <PopoverTrigger asChild>
                                         <button>
                                             <Ellipsis className="text-slate-700 dark:text-slate-300" />
