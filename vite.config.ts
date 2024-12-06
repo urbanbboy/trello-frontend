@@ -11,6 +11,6 @@ export default defineConfig({
         }
     },
     define: {
-        __BASE_URL__: JSON.stringify("http://localhost:8080/api")
+        __BASE_URL__: JSON.stringify("https://trello-backend-sglq.onrender.com/api")
     }
 })
