@@ -2,7 +2,7 @@ import { useState, ElementRef, useRef } from "react";
 import { AlignLeft } from "lucide-react";
 import { Task } from "@/entities/Task/model/types"
 import { useUpdateTaskMutation } from "@/entities/Task/model/api";
-import { FormTextarea } from "./FormTextArea";
+import { FormTextarea } from "./FormTextarea";
 import { Button } from "@/shared/ui/Button";
 import { toast } from "sonner";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
