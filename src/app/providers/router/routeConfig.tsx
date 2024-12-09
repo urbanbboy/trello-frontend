@@ -19,7 +19,7 @@ export enum RouteNames {
 
 export interface Route {
     path: string;
-    element: ReactNode;
+    element?: ReactNode;
     private?: boolean;
     layout: boolean | "sidebar" | "header";
     children?: Route[]
@@ -29,6 +29,7 @@ export const routeConfig: Route[] = [
     {
         path: RouteNames.MAIN_PAGE,
         element: <Navigate to={RouteNames.BOARDS_PAGE} />,
+        private: true,
         layout: false,
     },
     {

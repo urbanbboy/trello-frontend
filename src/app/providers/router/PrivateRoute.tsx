@@ -1,47 +1,51 @@
-import { Navigate, useLocation } from "react-router-dom"
-import { RouteNames } from "./routeConfig"
-import { FC, PropsWithChildren, useEffect, useState } from "react"
-import { useRefreshMutation } from "@/entities/User/model/api"
-import { useAppDispatch } from "@/shared/hooks/useAppDispatch"
-import { userActions } from "@/entities/User"
-import { USER } from "@/shared/constants/User"
-import { Loader } from "@/shared/ui/Loader"
+import { Navigate, useLocation } from "react-router-dom";
+import { RouteNames } from "./routeConfig";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { useRefreshMutation } from "@/entities/User/model/api";
+import { useAppDispatch } from "@/shared/hooks/useAppDispatch";
+import { useAuth, userActions } from "@/entities/User";
+import { USER } from "@/shared/constants/User";
+import { Loader } from "@/shared/ui/Loader";
 
 export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
-    const [getUser, { isLoading, isSuccess, isError }] = useRefreshMutation()
-    const { pathname } = useLocation()
-    const dispatch = useAppDispatch()
+    const [getUser, { isLoading }] = useRefreshMutation();
+    const { currentUser } = useAuth();
+    const { pathname } = useLocation();
+    const dispatch = useAppDispatch();
 
-    const [isTokenRefreshed, setIsTokenRefreshed] = useState(false)
+    const [isTokenChecked, setIsTokenChecked] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem(USER.ACCESS_TOKEN)
-        if (token && !isTokenRefreshed) {
-            setIsTokenRefreshed(true)
+        const token = localStorage.getItem(USER.ACCESS_TOKEN);
+
+        if (!currentUser && token) {
             getUser()
                 .unwrap()
                 .then((data) => {
                     if (data) {
-                        const { user, accessToken } = data
-                        dispatch(userActions.setUser(user))
-                        localStorage.setItem(USER.ACCESS_TOKEN, accessToken)
+                        const { user, accessToken } = data;
+                        dispatch(userActions.setUser(user));
+                        localStorage.setItem(USER.ACCESS_TOKEN, accessToken);
                     }
                 })
+                .catch(() => {
+                    dispatch(userActions.logout())
+                })
+                .finally(() => {
+                    setIsTokenChecked(true); 
+                });
+        } else {
+            setIsTokenChecked(true)
         }
-    }, [isTokenRefreshed, dispatch, getUser])
+    }, [currentUser, getUser, dispatch]);
 
-    if (isLoading) {
-        return <Loader />
+    if (isLoading || !isTokenChecked) {
+        return <Loader />;
     }
 
-    if (isError) {
-        dispatch(userActions.logout())
-        return <Navigate to={RouteNames.LOGIN_PAGE} state={{ from: pathname }} />
+    if (!currentUser) {
+        return <Navigate to={RouteNames.LOGIN_PAGE} state={{ from: pathname }} />;
     }
 
-    if (!isLoading && isSuccess) {
-        return children
-    }
-
-    return null;
-}
+    return <>{children}</>;
+};
