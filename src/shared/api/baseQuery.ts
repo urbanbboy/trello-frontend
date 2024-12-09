@@ -7,7 +7,7 @@ import { UserRefreshResponse } from "@/entities/User/model/types";
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: __BASE_URL__,
+    baseUrl: __RENDER_BASE_URL__,
     credentials: 'include',
     prepareHeaders(headers) {
         const token = localStorage.getItem(USER.ACCESS_TOKEN);

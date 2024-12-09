@@ -1,5 +1,5 @@
 import { RouteNames } from "@/app/providers/router/routeConfig"
-import { RegisterSchema } from "@/entities/User"
+import { RegisterSchema, useAuth } from "@/entities/User"
 import { useRegisterMutation } from "@/entities/User/model/api"
 import { RegisterResponseError } from "@/entities/User/model/types"
 import { Button } from "@/shared/ui/Button"
@@ -18,6 +18,7 @@ const RegisterForm = () => {
         resolver: yupResolver(RegisterSchema)
     })
     const navigate = useNavigate()
+    const userAuth = useAuth()
     const [registerUser, { isLoading }] = useRegisterMutation()
 
     const onSubmit = async (data: Yup.InferType<typeof RegisterSchema>) => {
@@ -25,7 +26,8 @@ const RegisterForm = () => {
         const { confirmPassword, ...userData } = data
         await registerUser(userData)
             .unwrap()
-            .then(() => {
+            .then((data) => {
+                userAuth.login(data)
                 navigate(RouteNames.BOARDS_PAGE)
             })
             .catch((error: FetchBaseQueryError) => {

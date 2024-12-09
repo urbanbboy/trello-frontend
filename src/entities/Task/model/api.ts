@@ -18,7 +18,7 @@ export const taskApi = baseApi.injectEndpoints({
                 url: `/tasks/${id}`,
                 body: data
             }),
-            invalidatesTags: ["task", "column"]
+            invalidatesTags: ["task"]
         }),
         deleteTask: builder.mutation<Task, string | undefined>({
             query: (taskId) => ({
@@ -40,7 +40,7 @@ export const taskApi = baseApi.injectEndpoints({
                 url: '/tasks/updateorder',
                 body: data
             }),
-            invalidatesTags: ["column", "task"]
+            invalidatesTags: ["task"]
         }),
     })
 })

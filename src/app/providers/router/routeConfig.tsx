@@ -4,7 +4,7 @@ import { Login } from "@/pages/Login";
 import { NotFound } from "@/pages/NotFound";
 import { Register } from "@/pages/Register";
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
 
 export enum RouteNames {
     MAIN_PAGE = '/',
@@ -28,7 +28,7 @@ export interface Route {
 export const routeConfig: Route[] = [
     {
         path: RouteNames.MAIN_PAGE,
-        element: <Navigate to={"/boards"} />,
+        element: <Navigate to={RouteNames.BOARDS_PAGE} />,
         layout: false,
     },
     {
