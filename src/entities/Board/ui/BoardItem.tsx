@@ -39,7 +39,7 @@ export const BoardItem: FC<Props> = ({ name, boardId }) => {
                     <div
                         onContextMenu={handleRightClick}
                         style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1732465286852-a0b95393a90d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDN8MzE3MDk5fHx8fHwyfHwxNzMyNjgzNDMwfA&ixlib=rb-4.0.3&q=80&w=600)' }}
-                        className="h-full w-full bg-cover hover:scale-105 bg-slate-700 bg-center text-white font-bold text-xl rounded-lg"
+                        className="h-full w-full bg-cover lg:hover:scale-105 sm:hover:scale-100 bg-slate-700 bg-center text-white font-bold text-xl rounded-lg"
                     >
                         <Link className="w-full h-full flex items-center justify-center" to={`/boards/${boardId}`}>
                             {name}
