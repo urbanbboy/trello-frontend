@@ -1,8 +1,8 @@
-import { Board } from "@/pages/Board";
-import { Boards } from "@/pages/Boards";
-import { Login } from "@/pages/Login";
-import { NotFound } from "@/pages/NotFound";
-import { Register } from "@/pages/Register";
+import { Board } from "@/pages/Board/index.chunk";
+import { Boards } from "@/pages/Boards/index.chunk";
+import { Login } from "@/pages/Login/index.chunk";
+import { NotFound } from "@/pages/NotFound/index.chunk";
+import { Register } from "@/pages/Register/index.chunk";
 import { ReactNode } from "react";
 import { Navigate, Route } from "react-router-dom";
 

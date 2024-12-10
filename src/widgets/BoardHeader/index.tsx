@@ -67,9 +67,9 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                     {isLoading ? <Skeleton className="w-24 h-5" /> : <>{board?.name}</>}
                 </div>
                 <div className="flex gap-3">
-                    <Button className="w-22">
+                    {/* <Button className="w-22">
                         Пригласить
-                    </Button>
+                    </Button> */}
                     <Popover>
                         <PopoverTrigger asChild>
                             <button>

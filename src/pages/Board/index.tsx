@@ -3,7 +3,7 @@ import { BoardHeader } from "@/widgets/BoardHeader"
 import { useGetBoardByIdQuery } from "@/entities/Board/model/api"
 import { BoardColumns } from "@/features/dragndrop"
 
-export const Board = () => {
+const Board = () => {
     const { id: boardId } = useParams<{ id: string }>()
 
     const { data: board, isLoading } = useGetBoardByIdQuery({ boardId })
@@ -19,3 +19,5 @@ export const Board = () => {
         </div >
     )
 }
+
+export default Board

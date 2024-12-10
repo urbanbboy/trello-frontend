@@ -2,7 +2,7 @@ import { RouteNames } from "@/app/providers/router/routeConfig"
 import { Button } from "@/shared/ui/Button"
 import { Link } from "react-router-dom"
 
-export const NotFound = () => {
+const NotFound = () => {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="text-center">
@@ -19,3 +19,5 @@ export const NotFound = () => {
         </div>
     )
 }
+
+export default NotFound

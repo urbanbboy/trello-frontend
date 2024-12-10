@@ -3,7 +3,7 @@ import { useGetBoardsQuery } from "@/entities/Board/model/api"
 import { useSelector } from "react-redux"
 
 
-export const Boards = () => {
+const Boards = () => {
 
     const userId = useSelector(getCurrentUserId)
 
@@ -20,3 +20,5 @@ export const Boards = () => {
         </div>
     )
 }
+
+export default Boards

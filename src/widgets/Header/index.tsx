@@ -1,6 +1,5 @@
 import { useTheme } from "@/app/providers/theme";
 import { getCurrentUserUsername } from "@/entities/User/model/selectors";
-import { Avatar } from "@/shared/ui/Avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/shared/ui/Dropdown";
 import { Logo } from "@/shared/ui/Logo";
 import { LogOut, Moon, Settings, Sun, Table, User } from "lucide-react";
@@ -12,6 +11,7 @@ import { useLogoutMutation } from "@/entities/User/model/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/entities/User";
 import { toast } from "sonner";
+import { Avatar, AvatarImage } from "@/shared/ui/Avatar";
 
 export const Header = () => {
     const { theme, setTheme } = useTheme();
@@ -45,17 +45,19 @@ export const Header = () => {
                             <span className="text-slate-700 font-semibold dark:text-slate-400">{username}</span>
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex lg:hidden">
-                                    <Avatar
-                                        img='https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80'
-                                        alt="Colm Tiuite"
-                                    />
+                                    <Avatar>
+                                        <AvatarImage
+                                            src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+                                            alt={'Kitty'}
+                                        />
+                                    </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="min-w-44">
                                     <div>
                                         <Nav
                                             links={[
                                                 {
-                                                    title: "Profile",
+                                                    title: "Профиль",
                                                     icon: (props) => (
                                                         <User
                                                             className="w-5 h-5"
@@ -65,7 +67,7 @@ export const Header = () => {
                                                     to: RouteNames.PROFILE_PAGE,
                                                 },
                                                 {
-                                                    title: "Boards",
+                                                    title: "Доски",
                                                     icon: (props) => (
                                                         <Table
                                                             className="w-5 h-5"
@@ -75,7 +77,7 @@ export const Header = () => {
                                                     to: RouteNames.BOARDS_PAGE,
                                                 },
                                                 {
-                                                    title: "Settings",
+                                                    title: "Настройки",
                                                     icon: (props) => (
                                                         <Settings
                                                             className="w-5 h-5"
@@ -86,9 +88,9 @@ export const Header = () => {
                                                 },
                                             ]}
                                         />
-                                        <Button onClick={onLogout} className="flex gap-x-2 bg-slate-200 hover:bg-slate-300 text-black">
-                                            <LogOut className="text-black" />
-                                            Выйти
+                                        <Button onClick={onLogout} className="flex gap-x-2 bg-slate-200 dark:bg-slate-500 hover:bg-slate-300 text-black dark:text-white">
+                                            <LogOut />
+                                            <span>Выйти</span>
                                         </Button>
                                     </div>
 
