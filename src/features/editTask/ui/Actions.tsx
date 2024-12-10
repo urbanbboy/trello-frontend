@@ -5,6 +5,7 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { TaskActionsResponseError } from "../model/types";
+import { ButtonLoader } from "@/shared/ui/ButtonLoader";
 
 interface Props {
     data: Task;
@@ -37,7 +38,7 @@ export const Actions = ({ data, onClose }: Props) => {
                     className="flex gap-x-1 bg-gray-400 hover:bg-red-400 p-1"
                 >
                     <Trash />
-                    Удалить
+                    {isDeleteLoading ? <ButtonLoader text="Удаление" /> : <>Удалить</>}
                 </Button>
             </div>
         </div>

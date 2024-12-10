@@ -35,12 +35,13 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-slate-200 p-6 rounded-sm shadow-lg w-full max-w-sm">
+        <div className="bg-white dark:bg-slate-200 p-6 mx-3 rounded-sm shadow-lg w-full max-w-sm">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-2xl text-center mb-4 text-gray-800">Авторизация</h2>
                 <div>
                     <div className="font-medium pb-1">Почта</div>
                     <Input
+                        // className=""
                         {...register('email')}
                         type="text"
                         placeholder="Введите почту"
@@ -66,7 +67,7 @@ const LoginForm = () => {
                 </Button>
             </form>
             <div className="flex items-center justify-evenly w-full mt-4">
-                <p>
+                <p className="hidden sm:flex">
                     Нет учетной записи?
                 </p>
                 <Link to={RouteNames.REGISTER_PAGE} className="text-blue-600">

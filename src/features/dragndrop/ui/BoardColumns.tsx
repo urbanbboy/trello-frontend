@@ -14,6 +14,7 @@ import { useGetSequence } from "@/shared/hooks/useGeSequence";
 import { useGetColumnTasksQuery, useUpdateTaskOrderMutation } from "@/entities/Task/model/api";
 import { Column } from "@/entities/Column/model/types";
 import { Task } from "@/entities/Task/model/types";
+import { Skeleton } from "@/shared/ui/Skeleton";
 
 interface Props {
     boardId: string;
@@ -27,10 +28,26 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
     return result
 }
 
+const getSkeletons = () => {
+    return Array.from({ length: 3 }).map((_, index) => (
+        <Skeleton key={index} className="w-72 h-36">
+            <div className="flex justify-between items-center py-3 px-5 ">
+                <Skeleton className=" h-6 w-20 bg-gray-400" />
+                <Skeleton className=" h-3 w-7 bg-gray-400" />
+            </div>
+            <div className="flex flex-col gap-y-0.5 px-3">
+                <Skeleton className="h-7 w-full bg-gray-400" />
+                <Skeleton className="h-7 w-full bg-gray-400" />
+                <Skeleton className="h-7 w-full bg-gray-400" />
+            </div>
+        </Skeleton>
+    ));
+};
+
 export const BoardColumns: FC<Props> = ({ boardId }) => {
-    const { data: columns = [] } = useGetBoardColumnsByIdQuery(boardId)
-    const { data: tasks = [] } = useGetColumnTasksQuery(boardId)
-    const [createColumn, { isLoading, isSuccess: isCreateColumnSuccess }] = useCreateColumnMutation()
+    const { data: columns = [], isLoading: isColumnsLoading } = useGetBoardColumnsByIdQuery(boardId)
+    const { data: tasks = [], isLoading: isTasksLoading } = useGetColumnTasksQuery(boardId)
+    const [createColumn, { isLoading: isCreateColumnLoading, isSuccess: isCreateColumnSuccess }] = useCreateColumnMutation()
     const [updateColumnOrder] = useUpdateColumnOrderMutation()
     const [updateTaskOrder] = useUpdateTaskOrderMutation()
     const [formVisible, setFormVisible] = useState(false)
@@ -97,7 +114,6 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
                     ...prevTasks.filter(task => task.columnId !== startColumnId),
                     ...reorderedTasks
                 ]);
-                console.log(reorderedTasks)
                 await updateTaskOrder({
                     boardId,
                     tasks: reorderedTasks
@@ -105,6 +121,10 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
                     .unwrap()
                     .then(() => {
                         toast("Задача обновлена")
+                    })
+                    .catch(() => {
+                        toast.error("Возникла ошибка. Повторите попытку")
+                        setColumnTasks(tasks)
                     })
             } else {
                 const startTasks = filterTasks(startColumnId);
@@ -169,6 +189,9 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
             className="block relative overflow-x-auto h-screen-minus-120 bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(https://images.unsplash.com/photo-1732465286852-a0b95393a90d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDN8MzE3MDk5fHx8fHwyfHwxNzMyNjgzNDMwfA&ixlib=rb-4.0.3&q=80&w=2160)` }}
         >
+            <div className="flex flex-row m-3 gap-2">
+                {isColumnsLoading && isTasksLoading && getSkeletons()}
+            </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="all-columns" direction="horizontal" type="column" >
                     {(provided) => (
@@ -188,7 +211,7 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
                             {provided.placeholder}
                             <div>
                                 <AddColumn
-                                    isLoading={isLoading}
+                                    isLoading={isCreateColumnLoading}
                                     addColumn={addColumn}
                                     formVisible={formVisible}
                                     setFormVisible={setCreateFormVisible}

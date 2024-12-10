@@ -55,14 +55,6 @@ export const BoardList: FC<Props> = ({ boards, isBoardsLoading, userId }) => {
     }
 
 
-    if (!isBoardsLoading && !boards?.length) {
-        return (
-            <div className="flex items-center justify-center h-[82dvh] text-black dark:text-slate-400">
-                Созданные доски будут отображаться здесь
-            </div>
-        )
-    }
-
     return (
         <>
             <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:justify-center max-w-screen-lg">
@@ -82,10 +74,11 @@ export const BoardList: FC<Props> = ({ boards, isBoardsLoading, userId }) => {
                         <Button
                             className="flex items-center justify-center bg-gray-300 hover:bg-gray-400 w-full aspect-square"
                         >
-                            <Plus size={40} />
+                            <Plus size={25} />
+                            Добавить
                         </Button>
                     </DialogTrigger>
-                    <DialogContent theme={theme} className="bg-white dark:bg-slate-700">
+                    <DialogContent theme={theme}>
                         <DialogHeader>
                             <DialogTitle className="text-black dark:text-white">
                                 Создать доску
