@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { defaultImages } from "@/shared/constants/defaultImages";
 import { unsplash } from "@/shared/hooks/unsplash"
 import { cn } from "@/shared/utils/classNames"
 import { Check, Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
-import { defaultImages } from "@/shared/constants/images";
 
 interface Props {
     id: string;
