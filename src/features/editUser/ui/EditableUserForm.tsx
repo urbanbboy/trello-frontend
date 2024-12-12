@@ -54,7 +54,7 @@ const EditableUserForm = () => {
     }
 
     return (
-        <div className="w-full max-w-sm my-4">
+        <div className="w-full max-w-sm my-4 border rounded-md p-4 dark:border-none">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-y-3">
                     <Avatar className="m-auto w-44 h-44">
@@ -106,7 +106,7 @@ const EditableUserForm = () => {
                         }
                         {!isEditing && <Button
                             type="button"
-                            variant={"gray"}
+                            variant={"secondary"}
                             onClick={enableEditing}
                         >
                             Изменить
