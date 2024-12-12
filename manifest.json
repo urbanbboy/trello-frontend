@@ -1,6 +1,6 @@
 {
     "name": "Trello Clone",
-    "short_name": "TrelloClone",
+    "short_name": "Trello",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

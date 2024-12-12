@@ -10,6 +10,11 @@ export interface Board {
     owner: Owner;
     columns: Column[];
     members: User[]
+    imageId: string;
+    imageThumbUrl: string;
+    imageFullUrl: string;
+    imageLinkHTML: string;
+    imageUserName: string;
 }
 
 export interface BoardCreateError {

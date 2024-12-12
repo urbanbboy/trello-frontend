@@ -28,9 +28,9 @@ export const boardApi = baseApi.injectEndpoints({
             invalidatesTags: ["boards"]
         }),
         updateBoard: builder.mutation({
-            query: ({ boardId, data }) => ({
+            query: (data) => ({
                 method: "PUT",
-                url: `/boards/${boardId}`,
+                url: `/boards`,
                 body: data
             }),
             invalidatesTags: ["board", "boards"]

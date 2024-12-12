@@ -21,6 +21,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
     const navigate = useNavigate()
 
     const [boardTitle, setBoardTitle] = useState(board?.name)
+    const [isOpen, setIsOpen] = useState(false)
 
 
     const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,13 +31,12 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
     const handleUpdateBoard = async () => {
         await updateBoard({
             boardId: board._id,
-            data: {
-                name: boardTitle
-            }
+            name: boardTitle
         })
             .unwrap()
             .then(() => {
                 toast.success("Доска обновлена")
+                setIsOpen(false)
             })
             .catch(() => {
                 toast.error("Не удалось обновить")
@@ -67,10 +67,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                     {isLoading ? <Skeleton className="w-24 h-5" /> : <>{board?.name}</>}
                 </div>
                 <div className="flex gap-3">
-                    {/* <Button className="w-22">
-                        Пригласить
-                    </Button> */}
-                    <Popover>
+                    <Popover open={isOpen} onOpenChange={setIsOpen}>
                         <PopoverTrigger asChild>
                             <button>
                                 <Settings className="text-slate-700 dark:text-neutral-100" />
@@ -86,7 +83,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                                 onChange={handleChangeTitle}
                                 placeholder="Название доски"
                             />
-                            <Button onClick={handleUpdateBoard}>Изменить</Button>
+                            <Button onClick={handleUpdateBoard} className="bg-slate-500 hover:bg-slate-600">Изменить</Button>
                             <Button onClick={handleDeleteBoard} className="bg-red-600">Удалить</Button>
                         </PopoverContent>
                     </Popover>

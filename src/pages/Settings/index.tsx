@@ -1,7 +1,10 @@
 
 const Settings = () => {
+
     return (
-        <div>Settings</div>
+        <div>
+            settings
+        </div>
     )
 }
 

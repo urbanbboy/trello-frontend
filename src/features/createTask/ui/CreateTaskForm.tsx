@@ -63,7 +63,7 @@ export const CreateTaskForm: FC<Props> = ({ onCloseTaskForm, columnId, tasks, bo
                 </Button>
             </div>
             <ErrorMessage message={errors.title?.message} />
-            <Button type="submit">
+            <Button type="submit" variant={'primary'}>
                 {isLoading ? <ButtonLoader text="Добавление" /> : <>Добавить</>}
             </Button>
         </form>

@@ -47,7 +47,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
                         id={id}
                         disabled={disabled}
                         className={cn(
-                            "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm rounded-md text-slate-500 dark:text-slate-200",
+                            "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm rounded-md text-slate-800 dark:text-slate-200",
                             className
                         )}
                         defaultValue={defaultValue}

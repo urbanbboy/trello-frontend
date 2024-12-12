@@ -4,15 +4,8 @@ import { useSelector } from "react-redux"
 
 
 const Boards = () => {
-
     const userId = useSelector(getCurrentUserId)
-
-
     const { data: boards, isLoading: isBoardsLoading } = useGetBoardsQuery({ userId })
-
-    
-
-
 
     return (
         <div className="text-black dark:text-white">

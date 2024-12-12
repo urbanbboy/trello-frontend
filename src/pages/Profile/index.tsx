@@ -1,7 +1,10 @@
+import { EditableUserForm } from "@/features/editUser"
 
 const Profile = () => {
     return (
-        <div>Profile page</div>
+        <div className="flex items-center justify-center">
+            <EditableUserForm />
+        </div>
     )
 }
 

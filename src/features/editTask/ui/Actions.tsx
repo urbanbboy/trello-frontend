@@ -35,7 +35,8 @@ export const Actions = ({ data, onClose }: Props) => {
                 <Button
                     onClick={onDelete}
                     disabled={isDeleteLoading}
-                    className="flex gap-x-1 bg-gray-400 hover:bg-red-400 p-1"
+                    className="flex gap-x-1"
+                    variant={'destructive'}
                 >
                     <Trash />
                     {isDeleteLoading ? <ButtonLoader text="Удаление" /> : <>Удалить</>}

@@ -102,8 +102,8 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
                     value={columnName}
                     readOnly={!editColumn}
                 />
-                {editColumn && <Button onClick={onCancelEdit} type="button" className="bg-transparent hover:bg-slate-300 flex-1 py-0.5">
-                    <X className="text-slate-600" />
+                {editColumn && <Button onClick={onCancelEdit} type="button" variant={'ghost'}>
+                    <X className="text-slate-600 dark:text-white/70" />
                 </Button>}
             </div>
         )
@@ -136,12 +136,14 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
                                         <Button
                                             onClick={onChangeEdit}
                                             className="flex justify-center gap-1"
+                                            variant={'secondary'}
                                         >
                                             <Pencil /> Изменить
                                         </Button>
                                         <Button
                                             onClick={handleColumnDelete}
-                                            className="flex justify-center gap-1 bg-red-600 hover:bg-red-800"
+                                            className="flex justify-center gap-1"
+                                            variant={'destructive'}
                                         >
                                             {isLoading ? <ButtonLoader text="Удаление" /> : <><Trash2 /> Удалить</>}
                                         </Button>
@@ -177,14 +179,15 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
                             />
                         }
                         {!visibleTaskForm &&
-                            <button
+                            <Button
                                 onClick={onClickOpenTaskForm}
-                                className="flex w-full m-auto bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md"
+                                variant={'primary'}
+                                className="w-full"
                             >
                                 <div className="m-auto">
                                     <Plus />
                                 </div>
-                            </button>
+                            </Button>
                         }
                     </div>
                 </li>

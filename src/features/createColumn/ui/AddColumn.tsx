@@ -44,17 +44,17 @@ export const AddColumn: FC<Props> = ({ isLoading, formVisible, setFormVisible, a
                     />
                     <div className="text-red-600 text-xs mb-2">{errors.title?.message}</div>
                     <div className="flex gap-1">
-                        <Button type="submit">
+                        <Button type="submit" variant={'primary'} className="flex-1">
                             {isLoading ? <ButtonLoader text="Создание" /> : <>Создать</>}
                         </Button>
-                        <Button onClick={onCloseForm} type="button" className="border-slate-400 bg-transparent hover:bg-slate-300 flex-1">
-                            <X className="text-slate-600" />
+                        <Button onClick={onCloseForm} type="button" className="" variant={'transparent'}>
+                            <X className="text-slate-600 dark:text-white/70" />
                         </Button>
                     </div>
                 </form>
-                : <Button onClick={() => setFormVisible(true)} disabled={isLoading} className="w-72 h-12">
-                    <div className="flex justify-center">
-                        <Plus /> Добавить
+                : <Button onClick={() => setFormVisible(true)} disabled={isLoading} className="w-72 h-12" variant={'primary'}>
+                    <div className="flex justify-center items-center">
+                        <Plus /> <span>Добавить</span>
                     </div>
                 </Button>
             }

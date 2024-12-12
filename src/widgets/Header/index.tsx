@@ -1,9 +1,7 @@
 import { useTheme } from "@/app/providers/theme";
-import { getCurrentUserUsername } from "@/entities/User/model/selectors";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/shared/ui/Dropdown";
 import { Logo } from "@/shared/ui/Logo";
 import { LogOut, Moon, Settings, Sun, Table, User } from "lucide-react";
-import { useSelector } from "react-redux";
 import { Nav } from "../Sidebar/Nav";
 import { RouteNames } from "@/app/providers/router/routeConfig";
 import { Button } from "@/shared/ui/Button";
@@ -12,10 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/entities/User";
 import { toast } from "sonner";
 import { Avatar, AvatarImage } from "@/shared/ui/Avatar";
+import { memo } from "react";
 
-export const Header = () => {
+
+export const Header = memo(() => {
     const { theme, setTheme } = useTheme();
-    const username = useSelector(getCurrentUserUsername)
+    const { currentUser } = useAuth()
 
     const [userLogout] = useLogoutMutation()
     const navigate = useNavigate()
@@ -40,17 +40,17 @@ export const Header = () => {
                     <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
                         {theme === "light" ? <Moon /> : <Sun className="text-slate-700 dark:text-slate-400" />}
                     </button>
-                    {username &&
+                    {currentUser?.username &&
                         <>
-                            <span className="text-slate-700 font-semibold dark:text-slate-400">{username}</span>
                             <DropdownMenu>
-                                <DropdownMenuTrigger className="flex lg:hidden">
+                                <DropdownMenuTrigger className="flex items-center gap-x-1">
                                     <Avatar>
                                         <AvatarImage
                                             src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
                                             alt={'Kitty'}
                                         />
                                     </Avatar>
+                                    <span className="text-slate-700 font-semibold dark:text-slate-400 hidden sm:flex">{currentUser.username}</span>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="min-w-44">
                                     <div>
@@ -65,6 +65,8 @@ export const Header = () => {
                                                         />
                                                     ),
                                                     to: RouteNames.PROFILE_PAGE,
+                                                    isDropDown: true
+                                                    
                                                 },
                                                 {
                                                     title: "Доски",
@@ -75,6 +77,7 @@ export const Header = () => {
                                                         />
                                                     ),
                                                     to: RouteNames.BOARDS_PAGE,
+                                                    isDropDown: true
                                                 },
                                                 {
                                                     title: "Настройки",
@@ -85,10 +88,11 @@ export const Header = () => {
                                                         />
                                                     ),
                                                     to: RouteNames.SETTINGS_PAGE,
+                                                    isDropDown: true
                                                 },
                                             ]}
                                         />
-                                        <Button onClick={onLogout} className="flex gap-x-2 bg-slate-200 dark:bg-slate-500 hover:bg-slate-300 text-black dark:text-white">
+                                        <Button onClick={onLogout} className="w-full" variant={"secondary"}>
                                             <LogOut />
                                             <span>Выйти</span>
                                         </Button>
@@ -102,4 +106,4 @@ export const Header = () => {
             </div>
         </header >
     );
-};
+})

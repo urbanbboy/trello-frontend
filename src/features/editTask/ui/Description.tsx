@@ -19,7 +19,7 @@ export const Description = ({ data }: Props) => {
 
     const formRef = useRef<ElementRef<'form'>>(null)
     const textAreaRef = useRef<ElementRef<'textarea'>>(null)
-
+  
     const enableEditing = () => {
         setIsEditing(true)
         setTimeout(() => {

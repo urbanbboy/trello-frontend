@@ -15,9 +15,10 @@ import { useGetColumnTasksQuery, useUpdateTaskOrderMutation } from "@/entities/T
 import { Column } from "@/entities/Column/model/types";
 import { Task } from "@/entities/Task/model/types";
 import { Skeleton } from "@/shared/ui/Skeleton";
+import { Board } from "@/entities/Board";
 
 interface Props {
-    boardId: string;
+    board: Board;
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -44,9 +45,9 @@ const getSkeletons = () => {
     ));
 };
 
-export const BoardColumns: FC<Props> = ({ boardId }) => {
-    const { data: columns = [], isLoading: isColumnsLoading } = useGetBoardColumnsByIdQuery(boardId)
-    const { data: tasks = [], isLoading: isTasksLoading } = useGetColumnTasksQuery(boardId)
+export const BoardColumns: FC<Props> = ({ board }) => {
+    const { data: columns = [], isLoading: isColumnsLoading } = useGetBoardColumnsByIdQuery(board._id)
+    const { data: tasks = [], isLoading: isTasksLoading } = useGetColumnTasksQuery(board._id)
     const [createColumn, { isLoading: isCreateColumnLoading, isSuccess: isCreateColumnSuccess }] = useCreateColumnMutation()
     const [updateColumnOrder] = useUpdateColumnOrderMutation()
     const [updateTaskOrder] = useUpdateTaskOrderMutation()
@@ -84,9 +85,8 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
             ).map((item, index) => ({ ...item, order: index }))
 
             setBoardColumns(items)
-            // TODO: send post request
             await updateColumnOrder({
-                boardId,
+                boardId: board._id,
                 columns: items,
             })
                 .unwrap()
@@ -115,7 +115,7 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
                     ...reorderedTasks
                 ]);
                 await updateTaskOrder({
-                    boardId,
+                    boardId: board._id,
                     tasks: reorderedTasks
                 })
                     .unwrap()
@@ -143,7 +143,7 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
                     ...newEndTasks
                 ]);
                 await updateTaskOrder({
-                    boardId,
+                    boardId: board._id,
                     tasks: [
                         ...newStartTasks,
                         ...newEndTasks
@@ -165,7 +165,7 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
     const addColumn = async (data: Yup.InferType<typeof CreateColumnSchema>) => {
         await createColumn({
             ...data,
-            boardId,
+            boardId: board._id,
             order: columnOrder
         }).unwrap()
             .then(() => {
@@ -187,11 +187,14 @@ export const BoardColumns: FC<Props> = ({ boardId }) => {
     return (
         <div
             className="block relative overflow-x-auto h-screen-minus-120 bg-cover bg-no-repeat bg-center"
-            style={{ backgroundImage: `url(https://images.unsplash.com/photo-1732465286852-a0b95393a90d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDN8MzE3MDk5fHx8fHwyfHwxNzMyNjgzNDMwfA&ixlib=rb-4.0.3&q=80&w=2160)` }}
+            style={{ backgroundImage: `url(${board.imageFullUrl})` }}
         >
-            <div className="flex flex-row m-3 gap-2">
-                {isColumnsLoading && isTasksLoading && getSkeletons()}
-            </div>
+            {isColumnsLoading && isTasksLoading && (
+                <div className="flex flex-row m-3 gap-2">
+                    {getSkeletons()}
+                </div>
+            )}
+
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="all-columns" direction="horizontal" type="column" >
                     {(provided) => (

@@ -13,8 +13,7 @@ export default {
       height: {
         'screen-minus-48': 'calc(100dvh - 48px)',
         'screen-minus-90': 'calc(100dvh - 93px)',
-        'screen-minus-120': 'calc(100dvh - 106px)',
-        'screen-minus-130': 'calc(100dvh - 135px)'
+        'screen-minus-120': 'calc(100dvh - 105px)',
       },
       colors: {
         border: "hsl(var(--border))",

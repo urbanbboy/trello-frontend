@@ -1,1 +1,1 @@
-export { CreateBoardForm } from "./ui/СreateBoardForm";
+export { FormDialog } from "./ui/FormDialog";

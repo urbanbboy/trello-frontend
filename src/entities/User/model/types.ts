@@ -1,5 +1,3 @@
-import { Board } from "@/entities/Board";
-
 interface Error {
     message: string;
 }
@@ -7,11 +5,9 @@ interface Error {
 export interface User {
     id: string;
     email: string;
-    isActivated: boolean;
     username: string;
-    boards: Board[]
+    image?: File | string;
 }
-
 export interface UserState {
     user: User | undefined;
     token?: string | undefined;
@@ -25,6 +21,11 @@ export interface LoginResponseSuccess {
 }
 
 export interface LoginResponseError {
+    message: string;
+    errors?: Error[]
+}
+
+export interface EditUserResponseError {
     message: string;
     errors?: Error[]
 }

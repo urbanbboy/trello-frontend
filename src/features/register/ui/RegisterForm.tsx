@@ -76,7 +76,7 @@ const RegisterForm = () => {
                     <div className="text-red-600 text-xs">{errors.confirmPassword?.message}</div>
                 </div>
 
-                <Button type="submit" className="mt-4">
+                <Button type="submit" className="mt-4 w-full" variant={'primary'}>
                     {isLoading ? <ButtonLoader text="Регистрация" /> : <>Зарегистрироваться</>}
                 </Button>
             </form>

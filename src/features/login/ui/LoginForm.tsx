@@ -41,7 +41,6 @@ const LoginForm = () => {
                 <div>
                     <div className="font-medium pb-1">Почта</div>
                     <Input
-                        // className=""
                         {...register('email')}
                         type="text"
                         placeholder="Введите почту"
@@ -61,7 +60,8 @@ const LoginForm = () => {
                 <Button
                     disabled={isLoading}
                     type="submit"
-                    className="mt-4"
+                    className="mt-4 w-full"
+                    variant={'primary'}
                 >
                     {isLoading ? <ButtonLoader text="Вход" /> : <>Войти</>}
                 </Button>

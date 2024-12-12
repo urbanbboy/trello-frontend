@@ -34,6 +34,14 @@ export const userApi = baseApi.injectEndpoints({
                 method: "POST"
             })
         }),
+        edit: builder.mutation({
+            query: (data) => ({
+                url: '/user',
+                method: "PUT",
+                body: data
+            }),
+            invalidatesTags: ["user"]
+        })
     })
 })
 
@@ -41,5 +49,6 @@ export const {
     useLoginMutation,
     useRegisterMutation,
     useRefreshMutation,
-    useLogoutMutation
+    useLogoutMutation,
+    useEditMutation,
 } = userApi
