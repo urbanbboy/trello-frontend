@@ -1,10 +1,11 @@
-import { getCurrentUserId, BoardList } from "@/entities/Board"
+import { BoardList } from "@/entities/Board"
 import { useGetBoardsQuery } from "@/entities/Board/model/api"
-import { useSelector } from "react-redux"
+import { useAuth } from "@/entities/User"
 
 
 const Boards = () => {
-    const userId = useSelector(getCurrentUserId)
+    const { currentUser } = useAuth()
+    const userId = currentUser?.id
     const { data: boards, isLoading: isBoardsLoading } = useGetBoardsQuery({ userId })
 
     return (

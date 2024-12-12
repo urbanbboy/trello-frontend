@@ -6,8 +6,13 @@ import { UserRefreshResponse } from "@/entities/User/model/types";
 
 const mutex = new Mutex();
 
+const baseUrl =
+    import.meta.env.MODE === 'production'
+        ? __RENDER_BASE_URL__
+        : __LOCAL_BASE_URL__;
+
 const baseQuery = fetchBaseQuery({
-    baseUrl: __LOCAL_BASE_URL__,
+    baseUrl: baseUrl,
     credentials: 'include',
     prepareHeaders(headers) {
         const token = localStorage.getItem(USER.ACCESS_TOKEN);
