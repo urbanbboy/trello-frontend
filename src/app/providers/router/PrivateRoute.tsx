@@ -17,7 +17,7 @@ export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem(USER.ACCESS_TOKEN);
-
+        
         if (!currentUser && token) {
             getUser()
                 .unwrap()
@@ -37,7 +37,7 @@ export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
         } else {
             setIsTokenChecked(true)
         }
-    }, [currentUser, getUser, dispatch]);
+    }, []);
 
     if (isLoading || !isTokenChecked) {
         return <Loader />;

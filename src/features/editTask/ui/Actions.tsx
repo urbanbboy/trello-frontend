@@ -2,7 +2,7 @@ import { useDeleteTaskMutation } from "@/entities/Task/model/api";
 import { Task } from "@/entities/Task/model/types"
 import { Button } from "@/shared/ui/Button";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { Trash } from "lucide-react";
+import { Copy, Trash } from "lucide-react";
 import { toast } from "sonner";
 import { TaskActionsResponseError } from "../model/types";
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
@@ -31,15 +31,23 @@ export const Actions = ({ data, onClose }: Props) => {
     return (
         <div>
             <div className="font-semibold text-black dark:text-slate-200 mb-2">Действия</div>
-            <div className="flex flex-col gap-y-1">
+            <div className="flex flex-row md:flex-col gap-1">
                 <Button
                     onClick={onDelete}
                     disabled={isDeleteLoading}
-                    className="flex gap-x-1"
                     variant={'destructive'}
+                    className="max-w-28"
                 >
-                    <Trash />
-                    {isDeleteLoading ? <ButtonLoader text="Удаление" /> : <>Удалить</>}
+                    
+                    {isDeleteLoading ? <ButtonLoader text="Удаление" /> : <span className="flex items-center gap-x-1"> <Trash /> Удалить</span>}
+                </Button>
+                <Button
+                    // disabled={isDeleteLoading}
+                    variant={'gray'}
+                    className="max-w-40"
+                >
+                    
+                    {isDeleteLoading ? <ButtonLoader text="Копирование" /> : <span className="flex items-center gap-x-1"> <Copy /> Скопировать</span>}
                 </Button>
             </div>
         </div>

@@ -42,6 +42,10 @@ export const Description = ({ data }: Props) => {
         const formData = new FormData(event.currentTarget);
         const description = formData.get("description") as string;
 
+        if (description === data.description) {
+            disableEditing();
+            return;
+        }
 
         await updateTask({
             data: {

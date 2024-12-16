@@ -6,7 +6,7 @@ export interface User {
     id: string;
     email: string;
     username: string;
-    image?: File | string;
+    image?: string;
 }
 export interface UserState {
     user: User | undefined;
