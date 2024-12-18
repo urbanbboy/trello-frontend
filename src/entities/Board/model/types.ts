@@ -20,3 +20,7 @@ export interface Board {
 export interface BoardCreateError {
     message: string;
 }
+
+export interface UpdateBoardError {
+    message: string;
+}

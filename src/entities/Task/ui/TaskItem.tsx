@@ -13,7 +13,7 @@ interface Props {
 export const TaskItem: FC<Props> = ({ task, index }) => {
     const { theme } = useTheme()
     const [isOpen, setIsOpen] = useState(false)
-    
+
     const dialogClose = () => {
         setIsOpen(false)
     }
@@ -29,9 +29,11 @@ export const TaskItem: FC<Props> = ({ task, index }) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             role="button"
-                            className="bg-slate-100 p-2 rounded-md text-start truncate border-2 border-transparent hover:border-black"
+                            className="flex justify-between items-center bg-slate-100 p-2 rounded-md  border-2 border-transparent hover:border-black overflow-auto"
                         >
-                            {task.title}
+                            <span className="truncate">
+                                {task.title}
+                            </span>
                         </li>
                     </DialogTrigger>
                     <DialogContent theme={theme} className="bg-white dark:bg-slate-800">

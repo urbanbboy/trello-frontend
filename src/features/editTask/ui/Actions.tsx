@@ -2,10 +2,12 @@ import { useDeleteTaskMutation } from "@/entities/Task/model/api";
 import { Task } from "@/entities/Task/model/types"
 import { Button } from "@/shared/ui/Button";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { Copy, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { TaskActionsResponseError } from "../model/types";
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { useState } from "react";
 
 interface Props {
     data: Task;
@@ -14,6 +16,7 @@ interface Props {
 
 export const Actions = ({ data, onClose }: Props) => {
     const [deleteTask, { isLoading: isDeleteLoading }] = useDeleteTaskMutation()
+    const [value, setValue] = useState<string>('')
 
     const onDelete = async () => {
         await deleteTask(data._id)
@@ -36,19 +39,26 @@ export const Actions = ({ data, onClose }: Props) => {
                     onClick={onDelete}
                     disabled={isDeleteLoading}
                     variant={'destructive'}
-                    className="max-w-28"
+                    className="w-full"
                 >
-                    
+
                     {isDeleteLoading ? <ButtonLoader text="Удаление" /> : <span className="flex items-center gap-x-1"> <Trash /> Удалить</span>}
                 </Button>
-                <Button
-                    // disabled={isDeleteLoading}
-                    variant={'gray'}
-                    className="max-w-40"
+                <Select
+                    value={value ? `${value}` : undefined}
+                    onValueChange={(value) => {
+                        setValue(value);
+                    }}
                 >
-                    
-                    {isDeleteLoading ? <ButtonLoader text="Копирование" /> : <span className="flex items-center gap-x-1"> <Copy /> Скопировать</span>}
-                </Button>
+                    <SelectTrigger className="">
+                        <SelectValue placeholder="Назначить" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value={"1"}>
+                            user1
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
         </div>
     )

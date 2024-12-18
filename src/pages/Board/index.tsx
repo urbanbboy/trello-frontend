@@ -13,7 +13,7 @@ const Board = () => {
             {board &&
                 <>
                     <BoardHeader isLoading={isLoading} board={board} />
-                    <BoardColumns board={board} />
+                    <BoardColumns board={board} isBoardLoading={isLoading} />
                 </>
             }
         </div >

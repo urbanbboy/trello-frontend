@@ -47,7 +47,7 @@ export const Routing = () => {
                         path={route.path}
                         element={
                             route.private
-                                ? <PrivateRoute>
+                                ? <PrivateRoute requiredActivation={route.requiredActivation}>
                                     {routeElement(route.element, route.layout)}
                                 </PrivateRoute>
                                 : routeElement(route.element, route.layout)

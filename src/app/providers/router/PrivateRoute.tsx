@@ -7,7 +7,11 @@ import { useAuth, userActions } from "@/entities/User";
 import { USER } from "@/shared/constants/User";
 import { Loader } from "@/shared/ui/Loader";
 
-export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
+interface Props {
+    requiredActivation: boolean
+}
+
+export const PrivateRoute: FC<PropsWithChildren<Props>> = ({ children }) => {
     const [getUser, { isLoading }] = useRefreshMutation();
     const { currentUser } = useAuth();
     const { pathname } = useLocation();
@@ -45,6 +49,10 @@ export const PrivateRoute: FC<PropsWithChildren> = ({ children }) => {
 
     if (!currentUser) {
         return <Navigate to={RouteNames.LOGIN_PAGE} state={{ from: pathname }} />;
+    }
+
+    if(!currentUser.isActivated) {
+        return <Navigate to={RouteNames.ACTIVATE_PAGE} />
     }
 
     return <>{children}</>;

@@ -19,6 +19,7 @@ import { Board } from "@/entities/Board";
 
 interface Props {
     board: Board;
+    isBoardLoading?: boolean;
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -186,7 +187,7 @@ export const BoardColumns: FC<Props> = ({ board }) => {
 
     return (
         <div
-            className="block relative overflow-x-auto h-screen-minus-120 bg-cover bg-no-repeat bg-center"
+            className="block relative overflow-x-auto h-screen-minus-113 bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(${board.imageFullUrl})` }}
         >
             {isColumnsLoading && isTasksLoading && (

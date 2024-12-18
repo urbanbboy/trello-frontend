@@ -7,6 +7,7 @@ export interface User {
     email: string;
     username: string;
     image?: string;
+    isActivated: boolean;
 }
 export interface UserState {
     user: User | undefined;

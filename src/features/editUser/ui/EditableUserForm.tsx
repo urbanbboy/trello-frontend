@@ -43,8 +43,6 @@ const EditableUserForm = () => {
     };
 
     const onSubmit = async (data: Yup.InferType<typeof EditUserSchema>) => {
-        console.log("image: ", image)
-        console.log(currentUser)
         await edit({ ...data, id: currentUser?.id })
             .unwrap()
             .then((data: User) => {
@@ -59,7 +57,7 @@ const EditableUserForm = () => {
     };
 
     return (
-        <div className="w-full max-w-sm my-4 border rounded-md p-4 dark:border-none">
+        <div className="w-full max-w-sm my-4 border rounded-md p-4 dark:border-slate-600">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-y-3">
                     <Avatar className="m-auto w-44 h-44">
@@ -71,7 +69,7 @@ const EditableUserForm = () => {
                     {isEditing && (
                         <input
                             type="file"
-                            className="block"
+                            className="hidden"
                             accept="image/*"
                             onChange={onChangeImage}
                         />
@@ -94,6 +92,7 @@ const EditableUserForm = () => {
                         error={errors.email?.message}
                         readOnly={!isEditing}
                     />
+                    {isEditing && <span className="text-xs text-orange-800">Предупреждение: если вы измените email, вам нужно будет подтвердить его через почту.</span>}
                     <div className="flex justify-end gap-x-4">
                         {isEditing &&
                             <>

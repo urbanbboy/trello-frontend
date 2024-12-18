@@ -28,7 +28,7 @@ const RegisterForm = () => {
             .unwrap()
             .then((data) => {
                 userAuth.login(data)
-                navigate(RouteNames.BOARDS_PAGE)
+                navigate(RouteNames.ACTIVATE_PAGE)
             })
             .catch((error: FetchBaseQueryError) => {
                 const data = error.data as RegisterResponseError;
