@@ -7,7 +7,6 @@ import { Button } from "@/shared/ui/Button";
 import { toast } from "sonner";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { TaskActionsResponseError } from "../model/types";
-import { DialogDescription } from "@/shared/ui/Dialog";
 
 interface Props {
     data: Task;
@@ -107,9 +106,9 @@ export const Description = ({ data }: Props) => {
                         role="button"
                         className="min-h-[78px] text-sm font-medium py-3 px-3.5 rounded-md bg-slate-100 dark:bg-slate-600"
                     >
-                        <DialogDescription className="text-slate-700 dark:text-slate-100">
+                        <div className="text-slate-700 dark:text-slate-100">
                             {data.description || "Добавтье описание..."}
-                        </DialogDescription>
+                        </div>
                     </div>
                 )}
             </div>

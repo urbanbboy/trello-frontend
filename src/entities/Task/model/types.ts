@@ -1,5 +1,3 @@
-import { User } from "@/entities/User/model/types";
-
 export interface Task {
     _id: string;
     title: string;
@@ -7,7 +5,7 @@ export interface Task {
     columnId: string;
     boardId: string;
     order: number;
-    assignees: User[];
-    createAt: string;
+    assignee: string;
+    createdAt: string;
     updatedAt: string;
 }

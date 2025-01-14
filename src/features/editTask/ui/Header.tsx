@@ -64,7 +64,7 @@ export const Header: FC<Props> = ({ data }) => {
                     className="w-[85%] border-transparent bg-transparent truncate dark:bg-transparent" />
             </form>
             <span className="bg-slate-200 dark:bg-slate-600 rounded-md p-1 text-slate-700 dark:text-slate-300 mr-5">
-                {dayjs(data.updatedAt).format("HH:mm MMM D")}
+                {dayjs(data.createdAt).format("HH:mm MMM D")}
             </span>
         </DialogTitle>
     )

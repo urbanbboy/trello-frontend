@@ -38,17 +38,23 @@ export const BoardItem: FC<Props> = ({ board }) => {
                 <PopoverTrigger asChild>
                     <div
                         onContextMenu={handleRightClick}
-                        style={{ backgroundImage: `url(${board.imageThumbUrl})` }}
-                        className="h-full w-full bg-cover lg:hover:scale-105 sm:hover:scale-100 bg-slate-700 bg-center text-white font-bold text-xl rounded-lg"
+                        className="relative h-full w-full text-white font-bold text-xl rounded-lg overflow-hidden group"
                     >
-                        <Link className="w-full h-full flex items-center justify-center" to={`/boards/${board._id}`}>
+                        <div
+                            style={{ backgroundImage: `url(${board.imageThumbUrl})` }}
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-300 scale-100 group-hover:scale-125"
+                        />
+                        <Link
+                            to={`/boards/${board._id}`}
+                            className="relative z-10 flex items-center justify-center h-full w-full bg-slate-700/40"
+                        >
                             {board.name}
                         </Link>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent align="end" className="w-40 bg-transparent dark:bg-transparent">
                     <Button className="bg-red-600 hover:bg-red-700" onClick={handleDeleteBoard}>
-                        {isLoading ? <ButtonLoader text="Удалениe"/> : "Удалить"}
+                        {isLoading ? <ButtonLoader text="Удалениe" /> : "Удалить"}
                     </Button>
                 </PopoverContent>
             </Popover>

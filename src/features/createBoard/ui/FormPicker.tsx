@@ -66,7 +66,7 @@ export const FormPicker = ({ id }: Props) => {
                             name={id}
                             className="hidden"
                             checked={selectedImageId === image.id}
-                            value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
+                            value={`${image.id}|${image.urls.small}|${image.urls.full}|${image.links.html}|${image.user.name}`}
                         />
                         <img
                             src={image.urls.thumb}

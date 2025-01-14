@@ -50,5 +50,5 @@ export const {
     useGetColumnTasksQuery,
     useUpdateTaskOrderMutation,
     useUpdateTaskMutation,
-    useDeleteTaskMutation
+    useDeleteTaskMutation,
 } = taskApi
