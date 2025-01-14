@@ -1,6 +1,6 @@
 import { RouteNames } from "@/app/providers/router/routeConfig"
 import { RegisterSchema, useAuth } from "@/entities/User"
-import { useRegisterMutation } from "@/entities/User/model/api"
+import { useInviteRegisterMutation, useRegisterMutation } from "@/entities/User/model/api"
 import { RegisterResponseError } from "@/entities/User/model/types"
 import { Button } from "@/shared/ui/Button"
 import { ButtonLoader } from "@/shared/ui/ButtonLoader"
@@ -13,27 +13,45 @@ import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import * as Yup from 'yup'
 
-const RegisterForm = () => {
+interface Props {
+    token: string | null;
+}
+
+const RegisterForm = ({ token }: Props) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Yup.InferType<typeof RegisterSchema>>({
         resolver: yupResolver(RegisterSchema)
     })
     const navigate = useNavigate()
     const userAuth = useAuth()
     const [registerUser, { isLoading }] = useRegisterMutation()
+    const [registerInvitedUser, { isLoading: isInvitationLoading }] = useInviteRegisterMutation()
 
     const onSubmit = async (data: Yup.InferType<typeof RegisterSchema>) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { confirmPassword, ...userData } = data
-        await registerUser(userData)
-            .unwrap()
-            .then((data) => {
-                userAuth.login(data)
-                navigate(RouteNames.ACTIVATE_PAGE)
-            })
-            .catch((error: FetchBaseQueryError) => {
-                const data = error.data as RegisterResponseError;
-                toast.error(data.message)
-            })
+        const { username, password, email } = data
+
+        if (token) {
+            await registerInvitedUser({ username, password, email, token })
+                .unwrap()
+                .then((data) => {
+                    userAuth.login(data)
+                    navigate(RouteNames.BOARDS_PAGE + `/${data.boardId}`)
+                })
+                .catch((error: FetchBaseQueryError) => {
+                    const data = error.data as RegisterResponseError;
+                    toast.error(data.message)
+                })
+        } else {
+            await registerUser({ username, password, email })
+                .unwrap()
+                .then((data) => {
+                    userAuth.login(data)
+                    navigate(RouteNames.ACTIVATE_PAGE)
+                })
+                .catch((error: FetchBaseQueryError) => {
+                    const data = error.data as RegisterResponseError;
+                    toast.error(data.message)
+                })
+        }
     }
 
     return (
@@ -77,7 +95,7 @@ const RegisterForm = () => {
                 </div>
 
                 <Button type="submit" className="mt-4 w-full" variant={'primary'}>
-                    {isLoading ? <ButtonLoader text="Регистрация" /> : <>Зарегистрироваться</>}
+                    {isLoading || isInvitationLoading ? <ButtonLoader text="Регистрация" /> : <>Зарегистрироваться</>}
                 </Button>
             </form>
             <div className="flex items-center justify-center w-full mt-4">

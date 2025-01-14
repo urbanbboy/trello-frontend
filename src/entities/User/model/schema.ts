@@ -12,3 +12,11 @@ export const RegisterSchema = object({
     password: string().min(4, "Пароль должен быть не меньше 4 символов").required("Заполните поле"),
     confirmPassword: string().min(4, "Пароль должен быть не меньше 4 символов").oneOf([ref("password")], "Пароли не соответствуют").transform(value => (value === "" ? undefined : value)).optional(),
 })
+
+export const InviteRegisterSchema = object({
+    email: string().email().required("Заполните поле").matches(emailRegExp, "Неверный адрес электронной почты"),
+    username: string().required("Заполните поле"),
+    password: string().min(4, "Пароль должен быть не меньше 4 символов").required("Заполните поле"),
+    confirmPassword: string().min(4, "Пароль должен быть не меньше 4 символов").oneOf([ref("password")], "Пароли не соответствуют").transform(value => (value === "" ? undefined : value)).optional(),
+    token: string().notRequired(),
+})

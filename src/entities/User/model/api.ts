@@ -3,6 +3,7 @@ import { LoginSchema, RegisterSchema } from '@/entities/User';
 import { LoginResponseSuccess, RegisterResponse } from './types';
 import { baseApi } from "@/shared/api/baseApi";
 import * as Yup from 'yup'
+import { InviteRegisterSchema } from './schema';
 
 
 export const userApi = baseApi.injectEndpoints({
@@ -17,6 +18,13 @@ export const userApi = baseApi.injectEndpoints({
         register: builder.mutation<RegisterResponse, Yup.InferType<typeof RegisterSchema>>({
             query: (data) => ({
                 url: '/register',
+                method: "POST",
+                body: data
+            })
+        }),
+        inviteRegister: builder.mutation<RegisterResponse, Yup.InferType<typeof InviteRegisterSchema>>({
+            query: (data) => ({
+                url: `/register/invite?token=${data.token}`,
                 method: "POST",
                 body: data
             })
@@ -41,6 +49,13 @@ export const userApi = baseApi.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ["user"]
+        }),
+        invite: builder.mutation({
+            query: (data) => ({
+                url: `/boards/invite`,
+                method: "POST",
+                body: data
+            })
         })
     })
 })
@@ -51,4 +66,6 @@ export const {
     useRefreshMutation,
     useLogoutMutation,
     useEditMutation,
+    useInviteMutation,
+    useInviteRegisterMutation
 } = userApi

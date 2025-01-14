@@ -1,8 +1,9 @@
 import { RouteNames } from "@/app/providers/router/routeConfig"
 import { Board } from "@/entities/Board"
-import { useDeleteBoardMutation, useUpdateBoardMutation } from "@/entities/Board/model/api"
+import { useDeleteBoardMutation, useUpdateBoardImageMutation, useUpdateBoardNameMutation } from "@/entities/Board/model/api"
 import { UpdateBoardError } from "@/entities/Board/model/types"
 import { FormPicker } from "@/features/createBoard/ui/FormPicker"
+import { InviteUserForm } from "@/features/inviteUser"
 import { Button } from "@/shared/ui/Button"
 import { ButtonLoader } from "@/shared/ui/ButtonLoader"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/Dialog"
@@ -21,20 +22,23 @@ interface Props {
 }
 
 export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
-    const [updateBoard, { isLoading: isUpdateLoading }] = useUpdateBoardMutation()
+    const [updateBoardName, { isLoading: isUpdateNameLoading }] = useUpdateBoardNameMutation()
+    const [updateBoardImage, { isLoading: isUpdateImageLoading }] = useUpdateBoardImageMutation()
     const [deleteBoard, { isLoading: isDeleteLoading }] = useDeleteBoardMutation()
     const navigate = useNavigate()
 
     const [boardTitle, setBoardTitle] = useState(board?.name)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isBgImageDialogOpen, setIsBgImageDialogOpen] = useState(false)
+    const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false)
+
 
     const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBoardTitle(e.target.value)
     }
 
     const handleUpdateBoard = async () => {
-        await updateBoard({
+        await updateBoardName({
             boardId: board._id,
             name: boardTitle
         })
@@ -60,17 +64,16 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
             })
     }
 
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitBgImage = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const formData = new FormData(event.currentTarget);
         const image = formData.get("image") as string;
-        await updateBoard({
-            name: boardTitle,
+        await updateBoardImage({
             image,
             boardId: board._id
         }).unwrap()
             .then(() => {
-                setIsDialogOpen(false)
+                setIsBgImageDialogOpen(false)
                 toast.success("Доска обновлена")
             })
             .catch((error: FetchBaseQueryError) => {
@@ -90,7 +93,15 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                 <div className="ml-20 text-slate-900 dark:text-white font-semibold text-lg">
                     {isLoading ? <Skeleton className="w-24 h-5" /> : <>{board?.name}</>}
                 </div>
+                {/* SETTINGS, BG IMAGE, INVITE USER */}
                 <div className="flex gap-1">
+
+                    <InviteUserForm 
+                        open={isInviteDialogOpen} 
+                        onOpenChange={setIsInviteDialogOpen}
+                        boardId={board._id}    
+                    />
+
                     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                         <PopoverTrigger asChild>
                             <Button variant={'transparent'} size={'inline'}>
@@ -108,15 +119,15 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                                 placeholder="Название доски"
                             />
                             <Button onClick={handleUpdateBoard} className="bg-slate-500 hover:bg-slate-600">
-                                {isUpdateLoading ? <ButtonLoader text={'Изменение'} /> : <span className="flex gap-x-1 items-center"><Pencil/> Изменить</span>}
+                                {isUpdateNameLoading ? <ButtonLoader text={'Изменение'} /> : <span className="flex gap-x-1 items-center"><Pencil /> Изменить</span>}
                             </Button>
                             <Button onClick={handleDeleteBoard} className="bg-red-600">
-                                {isDeleteLoading ? <ButtonLoader text={'Удаление'} /> : <span className="flex gap-x-1 items-center"><Trash/> Удалить</span>}
+                                {isDeleteLoading ? <ButtonLoader text={'Удаление'} /> : <span className="flex gap-x-1 items-center"><Trash /> Удалить</span>}
                             </Button>
                         </PopoverContent>
                     </Popover>
 
-                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <Dialog open={isBgImageDialogOpen} onOpenChange={setIsBgImageDialogOpen}>
                         <DialogTrigger>
                             <Button variant={'transparent'} size={'inline'}>
                                 <Images className="text-slate-700 dark:text-neutral-100" />
@@ -128,7 +139,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                                     Фоновое изображение
                                 </DialogTitle>
                             </DialogHeader>
-                            <form onSubmit={onSubmit}>
+                            <form onSubmit={onSubmitBgImage}>
                                 <FormPicker id={'image'} />
                                 <DialogFooter>
                                     <Button
@@ -137,7 +148,7 @@ export const BoardHeader: FC<Props> = ({ board, isLoading }) => {
                                         className="w-50"
                                         variant={'primary'}
                                     >
-                                        {isUpdateLoading ? <ButtonLoader text={'Изменение'} /> : <>Изменить</>}
+                                        {isUpdateImageLoading ? <ButtonLoader text={'Изменение'} /> : <>Изменить</>}
                                     </Button>
                                 </DialogFooter>
                             </form>

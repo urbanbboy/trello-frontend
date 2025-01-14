@@ -1,5 +1,6 @@
 import { baseApi } from "@/shared/api/baseApi";
 import { Board } from "./types";
+import { User } from "@/entities/User/model/types";
 
 
 export const boardApi = baseApi.injectEndpoints({
@@ -27,10 +28,18 @@ export const boardApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["boards"]
         }),
-        updateBoard: builder.mutation({
+        updateBoardName: builder.mutation({
             query: (data) => ({
                 method: "PUT",
-                url: `/boards`,
+                url: `/boards/update/name`,
+                body: data
+            }),
+            invalidatesTags: ["board", "boards"]
+        }),
+        updateBoardImage: builder.mutation({
+            query: (data) => ({
+                method: "PUT",
+                url: `/boards/update/image`,
                 body: data
             }),
             invalidatesTags: ["board", "boards"]
@@ -43,6 +52,13 @@ export const boardApi = baseApi.injectEndpoints({
             }),
             providesTags: ["board"]
         }),
+        getBoardMembers: builder.query<User[], { boardId: string | undefined }>({
+            query: ({ boardId }) => ({
+                method: 'GET',
+                url: '/members',
+                params: { boardId }
+            })
+        })
     })
 })
 
@@ -51,5 +67,7 @@ export const {
     useCreateBoardMutation,
     useGetBoardByIdQuery,
     useGetBoardsQuery,
-    useUpdateBoardMutation,
+    useUpdateBoardNameMutation,
+    useUpdateBoardImageMutation,
+    useGetBoardMembersQuery,
 } = boardApi

@@ -40,6 +40,7 @@ export interface RegisterResponse {
     accessToken: string;
     // refreshToken: string;
     user: User;
+    boardId?: string;
 }
 
 export interface UserRefreshResponse {
