@@ -7,6 +7,7 @@ import { Button } from "@/shared/ui/Button";
 import { ButtonLoader } from "@/shared/ui/ButtonLoader";
 import { Input } from "@/shared/ui/Input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import { Draggable, DraggableProvidedDragHandleProps, Droppable } from "@hello-pangea/dnd";
 import { Ellipsis, Grip, Pencil, Plus, Trash2, X } from "lucide-react";
 import { ChangeEvent, ClassAttributes, FC, HTMLAttributes, useRef, useState } from "react"
@@ -92,7 +93,14 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
     const loadColumnTitle = (draggableProps: DraggableProvidedDragHandleProps | (JSX.IntrinsicAttributes & ClassAttributes<HTMLDivElement> & HTMLAttributes<HTMLDivElement>) | null) => {
         return (
             <div {...draggableProps} className="flex items-center gap-2">
-                <Grip className="text-slate-950 dark:text-slate-300" />
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Grip className="text-slate-950 dark:text-slate-300" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <span>Зажмите мышью и перетащите в другое место</span>
+                    </TooltipContent>
+                </Tooltip>
                 <Input
                     ref={inputRef}
                     className="p-0 border-none font-semibold text-slate-950 dark:text-white bg-white dark:bg-slate-700"
@@ -179,15 +187,20 @@ export const BoardColumn: FC<Props> = ({ column, index, tasks }) => {
                             />
                         }
                         {!visibleTaskForm &&
-                            <Button
-                                onClick={onClickOpenTaskForm}
-                                variant={'primary'}
-                                className="w-full"
-                            >
-                                <div className="m-auto">
-                                    <Plus />
-                                </div>
-                            </Button>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        onClick={onClickOpenTaskForm}
+                                        variant={'primary'}
+                                        className="w-full"
+                                    >
+                                        <Plus />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <span>Нажмите чтобы создать задачу</span>
+                                </TooltipContent>
+                            </Tooltip>
                         }
                     </div>
                 </li>

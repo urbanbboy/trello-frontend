@@ -6,15 +6,18 @@ import { RouterProvider } from './app/providers/router'
 import { ThemeProvider } from './app/providers/theme'
 import { StoreProvider } from './app/providers/store'
 import { ToasterProvider } from './app/providers/toast/Toaster'
+import { TooltipProvider } from './shared/ui/Tooltip.tsx'
 
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ToasterProvider/>
+        <ToasterProvider />
         <ThemeProvider>
             <RouterProvider>
                 <StoreProvider>
-                    <App />
+                    <TooltipProvider>
+                        <App />
+                    </TooltipProvider>
                 </StoreProvider>
             </RouterProvider>
         </ThemeProvider>
