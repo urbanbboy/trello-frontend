@@ -19,5 +19,11 @@ export default defineConfig({
         __RENDER_BASE_URL__: JSON.stringify("https://trello-backend-1-kb2l.onrender.com/api"),
         __UNSPLASH_API_KEY__: JSON.stringify('-OycfeGP9NPRcI2ln69mFnJLfj2-1BExAgarFqFJcQI'),
         _MAX_FILE_SIZE_: JSON.stringify(2000000)
+    },
+    server: {
+        port: 3000
+    },
+    preview: {
+        port: 3001
     }
 })
