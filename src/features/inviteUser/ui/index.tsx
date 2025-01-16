@@ -18,8 +18,9 @@ import { useInviteMutation } from "@/entities/User/model/api";
 import { toast } from "sonner";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { InviteUserResponseError, InviteUserResponseSuccess } from "../model/types";
-import { OctagonAlert } from "lucide-react";
+import { OctagonAlert, UserRoundPlus } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
+
 
 interface Props {
     open: boolean;
@@ -52,8 +53,9 @@ const InviteUserForm: FC<Props> = ({ open, onOpenChange, boardId }) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger>
-                <Button variant={'primary'} size={'inline'}>
-                    Пригласить
+                <Button variant={'primary'} size={'inline'} className="flex gap-0.5">
+                    <UserRoundPlus />
+                    <span className="hidden md:flex">Пригласить</span>
                 </Button>
             </DialogTrigger>
             <DialogContent>
