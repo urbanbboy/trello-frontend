@@ -40,7 +40,7 @@ export const Header = memo(() => {
                     <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
                         {theme === "light" ? <Moon /> : <Sun className="text-slate-700 dark:text-slate-400" />}
                     </button>
-                    {currentUser?.username &&
+                    {currentUser?.isActivated &&
                         <>
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex items-center gap-x-1">

@@ -41,7 +41,7 @@ export const PrivateRoute: FC<PropsWithChildren<Props>> = ({ children }) => {
         } else {
             setIsTokenChecked(true)
         }
-    }, []);
+    }, [currentUser]);
 
     if (isLoading || !isTokenChecked) {
         return <Loader />;
